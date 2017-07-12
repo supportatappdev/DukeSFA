@@ -1,0 +1,44 @@
+<div class="inmodal">
+    <div class="modal-header">
+    <h4 class="modal-title"><i class="fa fa-spinner fa-spin" ng-show="loadDetData"></i> 
+    {{inv.cust_name}} [{{inv.cust_code}}] 
+    Order No: {{inv.order_no}} Date: {{inv.creation_date | date:'dd/MM/yyyy'}}</h4> 
+</div>
+    <div class="ibox-content  m-b-sm border-bottom">
+    <div style="max-height:500px;overflow:auto">
+        <table class="table table-bordered">
+        <thead>
+            <tr>
+                <!--th>SNo</th-->
+                <!--th>Item Code</th-->
+                <th>Item Name</th>
+                <!--th>Item Unit</th>
+                <th>Unit Price</th>
+                <th>No. of Units</th-->
+                <th>Quantity</th>
+                <th>Item Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="stat in invoiceItems">
+                <!--td>{{$index + 1}}</td-->
+                <!--td>{{stat.prd_code}}</td-->
+                <td>
+                {{stat.prd_name}} [{{stat.prd_code}}]<BR>
+                1 {{stat.uom}} Price : {{stat.uom_price}}<BR>
+                Num of {{stat.uom}}s : {{stat.no_of_uoms}}
+                </td>
+                <!--td>{{stat.uom}}</td>
+                <td>{{stat.uom_price}}</td>
+                <td>{{stat.no_of_uoms}} [{{stat.uom}}]</td-->
+                <td>{{stat.item_qty}}</td>
+                <td>{{stat.item_amount}}</td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+</div>
+    <div class="modal-footer"> 
+    <button ng-hide="hideCancel" type="button" class="btn btn-white" ng-click="close()">Close</button> 
+</div>
+</div>
