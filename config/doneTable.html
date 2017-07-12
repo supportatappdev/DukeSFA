@@ -1,0 +1,70 @@
+<style>
+    .ibox-content {
+        padding:10px 20px 0px 10px;
+    }
+</style>
+<div class="panel-body">
+         <div class="ibox float-e-margins" ng-if="md.showSearch === 'Y'">
+           <div class="ibox-title">
+            <h5><i class="fa fa-truck"></i> Search</h5>
+            <span class="pull-right header-top-fix"  ng-repeat='item in md.headerItems'>
+            <a href="{{item.link}}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> {{item.label}}</a>
+            </span>
+         </div>
+           <div class="ibox-content">
+            <form class="form-horizontal">
+              <span bind-html-compile="searchHtml"></span>
+              <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-10">  
+                     <button class="btn btn-sm btn-primary" ng-click ="search()"  >
+                     <i class="fa fa-search" ng-show="!isLoading"></i>  <i class="fa fa-spin fa-spinner" ng-show="isLoading"></i>Search
+                     </button>
+                     <button class="btn btn-sm btn-primary" 
+                        ng-click ="clear()"  >
+                     <i class="fa fa-eraser" ></i> Clear Search
+                     </button>
+                  </div>
+               </div>
+            </form>
+         </div>
+         </div>
+         <table class="table table-bordered">
+            <thead>
+               <tr>
+                  <th>#</th>
+                  <th ng-repeat='col in _columns' class="{{col.style}}">{{col.label}}</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr ng-repeat='row in _dtableData'>
+                  <td >{{$index+1}}</td>
+                  <td ng-repeat='col in _columns' class="{{col.style}}">
+                  
+                    <span ng-if="col.template">
+                      <div bind-html-compile="col.template"></div>
+                    </span>
+                    <span ng-show="!col.template">
+                        {{row[col.attributeName]}}
+                    </span>
+                        
+                  </td>
+               </tr>
+            </tbody>
+            <tfoot>
+               <!--<tr>-->
+               <!--   <td colspan="{{_columns.length + 1}}" class="text-center" ng-if="pagenate.totalPages > 1">-->
+               <!--      <paging-->
+               <!--         page="pagenate.currentPage" -->
+               <!--         page-size="pagenate.limit" -->
+               <!--         total="pagenate.totalPages"-->
+               <!--         ul-class="pagination"-->
+               <!--         active-class="active"-->
+               <!--         disabled-class="disabled"-->
+               <!--         show-prev-next="true"-->
+               <!--         show-first-last="true"-->
+               <!--         paging-action="gotoPage(page)"></paging>-->
+               <!--   </td>-->
+               <!--</tr>-->
+            </tfoot>
+         </table>
+</div>
