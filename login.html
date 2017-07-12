@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html ng-app="mymobile3">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SFA</title>
+<link href="build/css/app.css" rel="stylesheet">
+</head>
+<body class="gray-bg" ng-controller='LoginCtrl'>
+ 
+<div class="middle-box text-center loginscreen  animated fadeInDown">
+	<div>
+		<div>
+		<img src="http://70.35.204.78/support/scp/logo.php" style="height:90px">
+		</div>
+		<h3>Mobile Sales Force</h3>
+		<p>Login in. To see it in action.</p>
+		<p>
+		<div class="alert alert-error" id="errorSignin" style="display:none;padding:0px 5px 1px 1px">
+			<font color="red" id="errorMsgSignin"><ul><li></li></ul></font>
+		</div>
+		</p>
+		<form class="m-t" role="form">
+			<div class="form-group">
+				<input id="username" name="username" ng-model='username'
+				class="form-control" placeholder="Username">
+			</div>
+			<div class="form-group">
+				<input id="pwd" name="password" ng-model='username' type="password"  class="form-control" placeholder="Password">
+			</div>
+			<button ng-click="login()" type="submit" class="btn btn-primary block full-width m-b">
+			<i id="spinner" class="fa fa-spinner fa-spin"></i> Login
+			</button>
+
+		</form>
+		<p class="m-t">
+		
+		</p>
+	</div>
+</div>
+<!-- Mainly scripts -->
+<script src="build/js/vendor1.js"></script>
+<script src="build/js/vendor2.js"></script>
+<script>
+$(function(){ 
+ 	$('#spinner').hide();  
+	 $('input').keydown( function(e) {
+	        var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+	        if(key == 13) {
+	            e.preventDefault();
+	              
+	            $('#submit').click(); 
+	        }  
+	    });   
+	
+  	$('#submit').click(
+  			function(e) {
+				e.preventDefault(); 
+				$('#spinner').show();
+				$.post('/api/login', {
+  					"un" : $('#username').val(),
+  					"pw" : $('#pwd').val() 
+  				}, function(result) {
+  					//alert(result);
+  						var rdata = $.parseJSON(result);
+  					if(rdata.status =="S") {
+                        window._u = rdata.$_u;
+                        localStorage.setItem("$_u",JSON.stringify(_u));
+							window.location.href = "index.html";
+  					} else {
+  						$('#errorMsgSignin').html(rdata.error);
+  						$('#errorSignin').show();
+  						$('#errorMsgSignin').attr("style","font-size:12px");
+  					}
+  					$('#spinner').hide();
+  			  });
+  		});
+  });
+</script>
+	
+</body>
