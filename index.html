@@ -1,0 +1,120 @@
+<!--
+* mymobile3 
+*
+-->
+
+<!DOCTYPE html>
+<html ng-app="mymobile3">
+
+<head>
+
+    <meta charset="utf-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=0.6">-->
+     <!--<meta id="viewport" name="viewport" content="user-scalable=no,-->
+     <!--   initial-scale=0.6, maximum-scale=0.6, minimum-scale=0.6,-->
+     <!--   width=device-width, height=device-height" />-->
+    <meta name="viewport"  content='width=1250, user-scalable=0'/>
+    <!--<meta name="viewport" content="width=320, user-scalable=no, target-densitydpi=low-dpi" />-->
+        <title page-title></title>
+   </head>
+
+<!-- ControllerAs syntax --> 
+<!-- Main controller with serveral data used in Inspinia theme on diferent view -->
+<body ng-controller="MainCtrl as main" ng-cloak>
+
+<div class="middle-box text-center loginscreen  animated fadeInDown" ng-show="showLogin">
+	<div >
+		<div>
+		<img src="http://70.35.204.78/support/scp/logo.php" style="height:90px">
+		</div>
+		<h3>Mobile Sales Force</h3>
+		<p>Login in. To see it in action.</p>
+		<!--<p>{{_appUrl}}'/api/login'-->
+		<div ng-show="responseDetails.length > 0" class="alert alert-error"  style="padding:0px 5px 1px 1px">
+			<font color="red"><ul><li>{{responseDetails}}</li></ul></font>
+		</div>
+		</p>
+		<form class="m-t" role="form">
+			<div class="form-group">
+				<input  ng-model="username" name="username" class="form-control" placeholder="Username"
+					>
+			</div>
+			<div class="form-group">
+				<input ng-model="pwd" name="password"  type="password"  class="form-control" placeholder="Password">
+			</div>
+			<button ng-click="login()"  class="btn btn-primary block full-width m-b">
+			<i ng-show="signin" class="fa fa-spinner fa-spin"></i> Login
+			</button>
+			<a href="#"><small>Forgot password?</small></a>
+
+		</form>
+		<p class="m-t">
+		
+		</p>
+	</div>
+</div>
+<!-- Main view  -->
+<div ng-show="!showLogin" ui-view></div>
+<link href="build/css/app.css" rel="stylesheet">
+<script type="text/javascript" charset="utf-8">
+    var app = {
+        initialize: function() {
+            this.bindEvents();
+        },
+        bindEvents: function() {
+            document.addEventListener('deviceready', this.onDeviceReady, false);
+        },
+        onDeviceReady: function() {
+    
+            // PETEY'S SOLUTION, WRAPPED IN CODE TO CHECK FOR ANDROID PRE 4.2
+            // ALSO MODIFIED TO USE DEVICE PIXEL RATIO, INSTEAD OF CONTENTWIDTH
+            if( isAndroid() ) {
+                var matches = device.version.match( /[0-9]+(\.[0-9]+)?/i );
+    
+                //  if( matches.length && parseFloat( matches[ 0 ] ) < 4.2 ) {
+                //     document.body.style.zoom = 1 / window.devicePixelRatio;
+                //  }
+                 var viewportScale = 1 / window.devicePixelRatio;
+                  document.getElementById("viewport").setAttribute("content","user-scalable=no,initial-scale="+viewportScale+", minimum-scale=0.2,maximum-scale=2, width=device-width");
+            }
+    
+            // start app logic
+    
+        }
+    };
+
+    app.initialize();
+
+    function isAndroid() {
+        if( device.platform.match( /android/i ) ) {    
+         return true;
+        }
+        return false;
+    }
+</script>  
+<script src="build/js/vendor1.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCq0Rkd-lMffA4pHEhKxV5AHYMxj4eBXqk"></script>
+<script src="build/js/vendor2.js"></script>
+<script src="build/js/vendor3.js"></script>
+<script src="build/js/vendor4.js"></script>
+<script src="build/js/ng-map.js"></script>
+<script src="build/js/ng-scroll.js"></script>
+<script src="config/inspinia.js"></script>
+  
+<!-- Anglar App Script -->
+
+<script src="config/app.js"></script>
+<script src="login/config.js"></script>
+<script src="config/components.js"></script>
+<script src="config/service.js"></script>
+<script src="customer/config.js"></script>
+<script src="config/config.js"></script>
+<script src="order/config.js"></script>
+
+<script src="config/directives.js"></script>
+<script src="config/controllers.js"></script>
+<script src="customer/ctrl.js"></script>
+<script src="order/ctrl.js"></script>
+
+</body>
+</html>
