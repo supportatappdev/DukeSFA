@@ -1,0 +1,32 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="CustCtrl">
+<div class="row">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="search-form">
+                        <form  >
+                            <div class="input-group col-lg-12" style="display:flex">
+                                <input type="text" placeholder="Search by Customer Name/Customer Code"
+                                ng-model="search" name="search" class="form-control input-lg" >
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                   <div infinite-scroll='getNextPage()' infinite-scroll-disabled='retailers.retailListLoading' infinite-scroll-distance='2'>
+                      <div ng-repeat='cts in retailers.spRetailList | filter:search'>
+                    <div class="search-result">
+                        <h3><a ng-click="goToRetailer(cts.cid)">{{cts.cust_name}}</a></h3>
+                        <a  class="search-link">[{{cts.cust_code}}]</a>
+                        <p>
+                          {{cts.addr_line1}}
+                          {{cts.route_name}}
+                         </p>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                   </div>
+                    <div class="text-center"><i class="fa fa-spin fa-spinner fa-2x" ng-show="retailers.retailListLoading"></i></div>
+                   </div>
+                </div>
+            </div>
+</div>
+</div>
