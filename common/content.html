@@ -1,0 +1,71 @@
+<!-- CSS -->
+<style>
+body.mini-navbar #page-wrapper {
+    margin: 0 0 0 152px !important;
+}
+
+body.mini-navbar .profile-element, body.mini-navbar .nav-label, body.mini-navbar .navbar-default .nav li a span {
+    display: inline !important;
+}
+body.mini-navbar .navbar-static-side {
+    width: 152px;
+}
+.mini-navbar .nav-second-level {
+    position: initial !important;
+    left: 70px !important;
+    top: 0px !important;
+    background-color: #2f4050;
+    padding: 10px 10px 10px 10px !important;
+    font-size: 12px;
+}
+
+.logStyle {
+    height: 40px;
+    margin-top: 6px;
+    margin-left: -20px;
+}
+
+
+.minimalize-styl-2 {
+    padding: 4px 12px;
+    margin: 14px 5px 5px 5px !important;
+    font-size: 14px;
+    float: left;
+}
+
+body.mini-navbar .navbar-default .nav > li > a {
+    font-size: 12px !important;
+}
+.nav > li > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px !important;
+}
+    body{ font-size : 10px; }
+     
+</style>
+
+<!-- Wrapper-->
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <div ng-include="'common/navigation.html'"></div>
+
+    <!-- Page wraper -->
+    <!-- ng-class with current state name give you the ability to extended customization your view -->
+    <div id="page-wrapper" class="gray-bg {{$state.current.name}}">
+
+        <!-- Page wrapper -->
+        <div ng-include="'common/topnavbar.html'"></div>
+
+        <!-- Main view  -->
+        <div ui-view></div>
+
+        <!-- Footer -->
+        <div ng-include="'common/footer.html'"></div>
+
+    </div>
+    <!-- End page wrapper-->
+
+</div>
+<!-- End wrapper-->
