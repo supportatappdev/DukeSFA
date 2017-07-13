@@ -14,8 +14,8 @@
                     <div class="hr-line-dashed" style="margin:5px 0"></div>
                    <div infinite-scroll='getNextPage()' infinite-scroll-disabled='retailers.retailListLoading' infinite-scroll-distance='2'>
                       <div ng-repeat='cts in retailers.spRetailList | filter:search'>
-                    <div class="search-result">
-                        <h3><a ng-click="goToRetailer(cts.cid)">{{cts.cust_name}}</a></h3>
+                    <div class="search-result" ng-click="goToRetailer(cts.cid)">
+                        <h3><a href="#">{{cts.cust_name}}</a></h3>
                         <a  class="search-link">[{{cts.cust_code}}]</a>
                         <p>
                           {{cts.addr_line1}}
