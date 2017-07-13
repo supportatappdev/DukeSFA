@@ -10,7 +10,7 @@ angular
              spRetailList:[],
              retailListLoading: false,
              offset: 0,
-             limit: 20
+             limit: 10
         };
         $scope.goToRetailer = function(custid) {
             $location.path("/index/addcust/"+custid);
@@ -28,24 +28,42 @@ angular
             }
             var wc = "spid = ?";//sp.salesperson
             var wcParams = [ $scope.salesrep.id];
-            BSServiceUtil.queryResultWithCallback("SFSPRetailViewRef", "_NOCACHE_", wc, wcParams, undefined, spRetailResult, $scope.retailers.limit,$scope.retailers.offset);
+            BSServiceUtil.queryResultWithCallback("SFSPRetailViewRef", "_NOCACHE_", wc, wcParams, " last_update_date desc ", spRetailResult, $scope.retailers.limit,$scope.retailers.offset);
         }
         loadReatils();
         
         //Store 
-         var _store = DoneStoreCache.create("_key","SFSPRetailViewRef");
-         _store.query().then(function(item){
-             if(console) {
-                console.log(item);             
-             }
-         });
+        //  var _store = DoneStoreCache.create("_keySFSPRetailViewRef","SFSPRetailViewRef");
+        //  _store.setWhereClause("spid = ?");
+        //  _store.setLimit($scope.retailers.limit);
+        //  _store.setOrderBy("last_update_date desc");
+        //  _store.setOffset($scope.retailers.offset);
+        //  _store.setWhereClauseParams([ $scope.salesrep.id]);
+        //  var _callback = function(){
+        //      $scope.retailers.retailListLoading = true;
+        //  }
+        //  _store.beforeQueryListener(_callback);
+        //  var _resultCallback = function(item){
+        //         $scope.retailers.retailListLoading = false;
+        //         var result = item.data;
+        //         for(var k = 0; k < result.length; k++) {
+        //             $scope.retailers.spRetailList.push(result[k]);
+        //         }
+        //         if(result.length <  _store.getLimit()) {
+        //             $scope.retailers.loaded = true;
+        //         }
+            
+        //  }
+        //  _store.query().then(_resultCallback);
         //-->END
         
         $scope.getNextPage = function() {
             if($scope.retailers.loaded) {
                 return;
             }
-            $scope.retailers.offset = ($scope.retailers.offset + $scope.retailers.limit);
+             $scope.retailers.offset = ($scope.retailers.offset + $scope.retailers.limit);
+            // _store.setOffset($scope.retailers.offset);
+            //_store.query().then(_resultCallback);
             loadReatils();
         }
 });
@@ -286,7 +304,7 @@ angular
 
 angular
     .module('mymobile3')
-    .controller('AddCustCtrl', function AddCustCtrl(GeoLocation,Util,BSServiceUtil,$state,$stateParams,$scope,Cache,$location,AlertService,$http,BSService) {
+    .controller('AddCustCtrl', function AddCustCtrl(DoneStoreCache,GeoLocation,Util,BSServiceUtil,$state,$stateParams,$scope,Cache,$location,AlertService,$http,BSService) {
         $("body").removeClass("mini-navbar");
         var _operation = 'INSERT';
         var _custId = $stateParams.id;
@@ -338,14 +356,27 @@ angular
         //         });
         //     }
         // }
+         var _custStore = DoneStoreCache.create("_keyFISFCustomerRef","FISFCustomerRef");
+         _custStore.setWhereClause("id = ?");
+         _custStore.setOrderBy("last_update_date desc");
+         _custStore.setWhereClauseParams([ _custId]);
         var getCustomer = function() {
             var callback = function(result) {
-                $scope.cust = result[0];
+                 $scope.cust = result.data[0];
+                 $scope.customerchannel = $scope.cust.channel_id;
+                 $scope.customertype = $scope.cust.customer_type_code;
+                 $scope.customergroup = $scope.cust.customer_group_code;
+                 $scope.tradetype = $scope.cust.trade_type_code;
+                 $scope.jpDay = $scope.cust.jp_id;
+                 $scope.fortnight = $scope.cust.visit_type;
+                 $scope.salesrepdetials.dstid = $scope.cust.dstb_id;
+                 $scope.salesrepdetials.tid = $scope.cust.terri_id;
+                 $scope.salesrepdetials.rid = $scope.cust.route_id;
             }
-            var wc = "id = ?";//sp.salesperson
-            var wcParams = [ _custId];
-            BSServiceUtil.queryResultWithCallback("FISFCustomerRef", "_NOCACHE_", wc, wcParams, undefined, callback);
-        }
+           _custStore.query().then(callback);
+         }
+        
+         
         if(_custId !== 'new') {
             _operation = 'UPDATE';
              getCustomer();
@@ -356,6 +387,16 @@ angular
         $scope.addCustomer = function() {
         $scope.addcspinner = true;
         var inputJSON = $scope.cust;
+         inputJSON.channel_id = $scope.customerchannel;
+         inputJSON.customer_type_code = $scope.customertype;
+         inputJSON.customer_group_code = $scope.customergroup;
+         inputJSON.trade_type_code = $scope.tradetype;
+         inputJSON.jp_id = $scope.jpDay;
+         inputJSON.visit_type = $scope.fortnight;
+         inputJSON.dstb_id = $scope.salesrepdetials.dstid;
+         inputJSON.terri_id = $scope.salesrepdetials.tid;
+         inputJSON.route_id = $scope.salesrepdetials.rid;
+        // inputJSON.terri_id = 
                 if(_operation == 'UPDATE')  {
                     inputJSON.last_update_date = Util.convertDBDate(new Date());
                     inputJSON.creation_date = Util.convertDBDate($scope.cust.creation_date);
