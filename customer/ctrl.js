@@ -15,22 +15,30 @@ angular
         $scope.goToRetailer = function(custid) {
             $location.path("/index/addcust/"+custid);
         }
-        var loadReatils  = function() {
+        
+        var loadReatils  = function(isCount) {
               $scope.retailers.retailListLoading = true;
             var spRetailResult = function(result) {
                 $scope.retailers.retailListLoading = false;
-                for(var k = 0; k < result.length; k++) {
-                    $scope.retailers.spRetailList.push(result[k]);
+                var _data;
+                if(isCount === 'N') {
+                    _data = result.data;
+                } else {
+                    _data = result.data;
+                    $scope.totalcnt = result.cnt;
                 }
-                if(result.length <  $scope.retailers.limit) {
+                for(var k = 0; k < _data.length; k++) {
+                    $scope.retailers.spRetailList.push(_data[k]);
+                }
+                if(_data.length <  $scope.retailers.limit) {
                     $scope.retailers.loaded = true;
                 }
             }
             var wc = "spid = ?";//sp.salesperson
             var wcParams = [ $scope.salesrep.id];
-            BSServiceUtil.queryResultWithCallback("SFSPRetailViewRef", "_NOCACHE_", wc, wcParams, " last_update_date desc ", spRetailResult, $scope.retailers.limit,$scope.retailers.offset);
+            BSServiceUtil.queryResultWithCallback("SFSPRetailViewRef", "_NOCACHE_", wc, wcParams, " last_update_date desc ", spRetailResult, $scope.retailers.limit,$scope.retailers.offset,isCount);
         }
-        loadReatils();
+        loadReatils("Y");
         
         //Store 
         //  var _store = DoneStoreCache.create("_keySFSPRetailViewRef","SFSPRetailViewRef");
@@ -64,7 +72,7 @@ angular
              $scope.retailers.offset = ($scope.retailers.offset + $scope.retailers.limit);
             // _store.setOffset($scope.retailers.offset);
             //_store.query().then(_resultCallback);
-            loadReatils();
+            loadReatils("N");
         }
 });
 angular
@@ -78,28 +86,32 @@ angular
              offset: 0,
              limit: 20
         };
-        var loadReatils  = function() {
+        var loadReatils  = function(isCount) {
               $scope.retailers.retailListLoading = true;
             var spRetailResult = function(result) {
                 $scope.retailers.retailListLoading = false;
-                for(var k = 0; k < result.length; k++) {
-                    $scope.retailers.spRetailList.push(result[k]);
+                var _data = result.data;
+                if(isCount === 'Y') {
+                    $scope.totalcnt = result.cnt;
                 }
-                if(result.length <  $scope.retailers.limit) {
+                for(var k = 0; k < _data.length; k++) {
+                    $scope.retailers.spRetailList.push(_data[k]);
+                }
+                if(_data.length <  $scope.retailers.limit) {
                     $scope.retailers.loaded = true;
                 }
             }
             var wc = "spid = ?";//sp.salesperson
             var wcParams = [ $scope.salesrep.id];
-            BSServiceUtil.queryResultWithCallback("SFSPRetailJPViewRef", "_NOCACHE_", wc, wcParams, undefined, spRetailResult, $scope.retailers.limit,$scope.retailers.offset);
+            BSServiceUtil.queryResultWithCallback("SFSPRetailJPViewRef", "_NOCACHE_", wc, wcParams, undefined, spRetailResult, $scope.retailers.limit,$scope.retailers.offset,isCount);
         }
-        loadReatils();
+        loadReatils("Y");
         $scope.getNextPage = function() {
             if($scope.retailers.loaded) {
                 return;
             }
             $scope.retailers.offset = ($scope.retailers.offset + $scope.retailers.limit);
-            loadReatils();
+            loadReatils("N");
         }
         $scope.startCall = function(id) {
             var callback = function() {
