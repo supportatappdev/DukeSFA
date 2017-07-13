@@ -114,16 +114,22 @@ angular
 });
 angular
     .module('mymobile3')
-    .controller('NewCallCtrl', function CustCtrl(BSService,Util,$state,$stateParams,$filter,$scope,Cache,$location,AlertService,$http,BSServiceUtil,$location) {
+    .controller('NewCallCtrl', function CustCtrl(DoneStoreCache,BSService,Util,$state,$stateParams,$filter,$scope,Cache,$location,AlertService,$http,BSServiceUtil,$location) {
        $scope._currDate = new Date();
        $scope.params.isStrartDay = true;
-       var loadProducts = function() {
-            var products = function(result) {
-                    $scope.products = result;
-            }
-            BSServiceUtil.queryResultWithCallback("SFProductRef", "_NOCACHE_", undefined, undefined, undefined, products);
+       var _productsStore = DoneStoreCache.create("_keySFProductViewRef2","SFProductViewRef");
+       $scope.x = {};
+       $scope.loadProducts = function() {
+            _productsStore.setWhereClause("prdtype_id = ?");
+            _productsStore.setLimit(300);
+            _productsStore.setOffset(0);
+            _productsStore.setWhereClauseParams([$scope.x.selproducttype]);
+            _productsStore.query().then(function(result) {
+                    $scope.products = result.data;
+            });
+           // BSServiceUtil.queryResultWithCallback("SFProductViewRef", "_NOCACHE_", " prdtype_id ", "", undefined, products);
        }
-       loadProducts();
+       //loadProducts();
        var startCall = function() {
             var inputJSON = {};
                 inputJSON.customer_id = $stateParams.id;
@@ -252,13 +258,16 @@ angular
                 po.price = selproduct.ctnr_price;
                 po.prodname = selproduct.prd_name;
                 po.id = selproduct.id;
+                po.sgst = selproduct.sgst;
+                po.cgst = selproduct.cgst;
             }
             
         $scope.setTotal = function(po) {
-                po.total = $filter('number')(po.price*po.quantity,2);
+                po.total = $filter('number')((po.price*po.quantity)+(po.sgst + po.cgst),2);
                 var _totAmount = 0;
                 angular.forEach($scope.order, function(po){
                     _totAmount += po.price*po.quantity ;
+                    _totAmount += (po.sgst + po.cgst);
                 }); 
                 $scope.totalAmount = $filter('number')(_totAmount,2);
                 $scope.totalAmountNumber = _totAmount;
