@@ -22,9 +22,23 @@
                                             <input type="checkbox" ng-model="po.selected"/></td>
                                         <td>
                                         <div>
-                                         <select class="form-control" ng-model="selproduct"  ng-change="setProdDetails(selproduct,po)"
+                                        Type:
+                                             <done-select ng-model="x.selproducttype" ng-change="loadProducts()" 
+                                                          custom-object="SFProductTypeRef" 
+                                                          key-attribute="id" 
+                                                          label-attribute="prdtype_name">
+                                              </done-select>
+                                         </div>
+                                         <div>
+                                          Product:
+                                             <select class="form-control" ng-model="selproduct"  ng-change="setProdDetails(selproduct,po)"
                                             ng-options="p as p.prd_name for p in products">
                                             </select> 
+                                             <!--<done-select ng-model="selproduct" ng-change="setProdDetails(selproduct,po)" -->
+                                             <!--             custom-object="SFProductRef" -->
+                                             <!--             key-attribute="id" -->
+                                             <!--             label-attribute="prd_name">-->
+                                             <!-- </done-select>-->
                                          </div>
                                          <div>
                                          Price:    
@@ -37,7 +51,20 @@
                                             </td>
                                        
                                             <td>
-                                            <input type="text" class="form-control" ng-model="po.total"  disabled/></td>
+                                             <div>
+                                            SGST:
+                                            <input type="text" class="form-control" ng-model="po.sgst"  disabled/>
+                                             </div>
+                                             <div>
+                                            CGST:
+                                            <input type="text" class="form-control" ng-model="po.cgst"  disabled/>
+                                             </div>
+                                            <div>
+                                            Line Total:
+                                            <input type="text" class="form-control" ng-model="po.total"  disabled/>
+                                             </div>
+                                            
+                                            </td>
                                              
                                         </tr> 
                                         <tr><td></td><td></td><td>Total: {{totalAmount}}</td></tr>
