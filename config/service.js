@@ -64,7 +64,7 @@ mymobile3.service('BSServiceUtil', function(notify, ExportService, BSService, Ca
         if (offset) {
             inputJSON.offset = offset;
         }
-        if (isCount) {
+        if (isCount && isCount === 'Y') {
             inputJSON.is_count = "Y";
         }
         if (selectClause) {
