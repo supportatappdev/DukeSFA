@@ -7,18 +7,7 @@ angular
     $scope._appUrl = _appUrl;
     $scope.pageTitle = "Journey Plan";
     $scope.params = {};
-    var _store = DoneStoreCache.create("_keySPREF","SFSalesPersonRef");
-         _store.setWhereClause("user_id = ?");
-         _store.setWhereClauseParams([Cache.loggedInUser().uId]);
-         _store.query().then(function(item){
-             $scope.salesrep = item.data[0];
-         });
-         var _storeSP = DoneStoreCache.create("_keySPREFDet","SFGetSPDeailsRef");
-         _storeSP.setWhereClause("user_id = ?");
-         _storeSP.setWhereClauseParams([Cache.loggedInUser().uId]);
-         _storeSP.query().then(function(item){
-             $scope.salesrepdetials = item.data[0];
-         });
+    
     $scope.logout = function() {
          	$http.get(_appUrl+'/api/logout').
 	  success(function(data, status, headers, config) {
@@ -68,9 +57,22 @@ angular
        $scope.showLogin = true;
        return;
     } else {
+        
       $scope.user = Cache.loggedInUser()
         $scope.showLogin = false;
-        $location.path("/index/main");
+        var _store = DoneStoreCache.create("_keySPREF","SFSalesPersonRef");
+         _store.setWhereClause("user_id = ?");
+         _store.setWhereClauseParams([Cache.loggedInUser().uId]);
+         _store.query().then(function(item){
+             $scope.salesrep = item.data[0];
+              $location.path("/index/listcustjp");
+         });
+         var _storeSP = DoneStoreCache.create("_keySPREFDet","SFGetSPDeailsRef");
+         _storeSP.setWhereClause("user_id = ?");
+         _storeSP.setWhereClauseParams([Cache.loggedInUser().uId]);
+         _storeSP.query().then(function(item){
+             $scope.salesrepdetials = item.data[0];
+         });
     }
    
        
