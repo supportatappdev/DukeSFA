@@ -1,4 +1,4 @@
-<div class="wrapper wrapper-content animated fadeInRight" ng-controller="CustCtrl">
+<div class="animated fadeInRight" ng-controller="CustCtrl">
 <div class="row">
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
@@ -11,7 +11,7 @@
 
                         </form>
                     </div>
-                    <div class="hr-line-dashed"></div>
+                    <div class="hr-line-dashed" style="margin:5px 0"></div>
                    <div infinite-scroll='getNextPage()' infinite-scroll-disabled='retailers.retailListLoading' infinite-scroll-distance='2'>
                       <div ng-repeat='cts in retailers.spRetailList | filter:search'>
                     <div class="search-result">
@@ -22,8 +22,8 @@
                           {{cts.route_name}}
                          </p>
                     </div>
-                    <div class="hr-line-dashed"></div>
-                   </div>
+                    <div class="hr-line-dashed" style="margin:5px 0"></div>
+                   <!--</div>
                     <div class="text-center"><i class="fa fa-spin fa-spinner fa-2x" ng-show="retailers.retailListLoading"></i></div>
                    </div>
                 </div>
