@@ -3,18 +3,22 @@
  */
 angular
     .module('mymobile3')
-    .controller('MainCtrl', function MainCtrl($scope,Cache,$location,AlertService,$http,BSServiceUtil) {
+    .controller('MainCtrl', function MainCtrl(DoneStoreCache,$scope,Cache,$location,AlertService,$http,BSServiceUtil) {
     $scope._appUrl = _appUrl;
     $scope.pageTitle = "Journey Plan";
     $scope.params = {};
-     var initSalesRep = function() {
-        var callback = function(result) {
-                $scope.salesrep = result[0];
-            }
-            var wc = "user_id = ?";//sp.salesperson
-            var wcParams = [Cache.loggedInUser().uId];
-            BSServiceUtil.queryResultWithCallback("SFSalesPersonRef", "_NOCACHE_", wc, wcParams, undefined, callback);
-    }
+    var _store = DoneStoreCache.create("_keySPREF","SFSalesPersonRef");
+         _store.setWhereClause("user_id = ?");
+         _store.setWhereClauseParams([Cache.loggedInUser().uId]);
+         _store.query().then(function(item){
+             $scope.salesrep = item.data[0];
+         });
+         var _storeSP = DoneStoreCache.create("_keySPREFDet","SFGetSPDeailsRef");
+         _storeSP.setWhereClause("user_id = ?");
+         _storeSP.setWhereClauseParams([Cache.loggedInUser().uId]);
+         _storeSP.query().then(function(item){
+             $scope.salesrepdetials = item.data[0];
+         });
     $scope.logout = function() {
          	$http.get(_appUrl+'/api/logout').
 	  success(function(data, status, headers, config) {
@@ -69,6 +73,5 @@ angular
         $location.path("/index/main");
     }
    
-    initSalesRep();
        
 })
