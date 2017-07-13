@@ -1,7 +1,5 @@
 <!-- add customers -->
-
-
-<div class="wrapper wrapper-content animated fadeInRight" ng-controller='AddCustCtrl'>
+<div class="animated fadeInRight" ng-controller='AddCustCtrl'>
     <div class="row">
         <div >
             <div class="ibox float-e-margins">
@@ -62,7 +60,7 @@
                             <div class="col-lg-10">
                           <done-select ng-model="customertype" ng-change="select()" 
                           custom-object="SFCustomerTypeRef" 
-                          key-attribute="custtype_code" 
+                          key-attribute="id" 
                           label-attribute="custtype_name"></done-select>
                         </div>
                         </div>
@@ -70,7 +68,7 @@
                             <div class="col-lg-10">
                           <done-select ng-model="customergroup" ng-change="select()" 
                           custom-object="SFCustomerGroupRef" 
-                          key-attribute="custgrp_code" 
+                          key-attribute="id" 
                           label-attribute="custgrp_name"></done-select>
                         </div>
                         
@@ -79,7 +77,7 @@
                             <div class="col-lg-10">
                           <done-select ng-model="customerchannel" ng-change="select()" 
                           custom-object="SFChannelRef" 
-                          key-attribute="channel_code" 
+                          key-attribute="id" 
                           label-attribute="channel_name"></done-select>
                         </div>
                         
@@ -96,7 +94,7 @@
                             <div class="col-lg-10">
                            <done-select ng-model="jpDay" 
                           ng-change="select()" 
-                          simple-combo="Y" values="M:Monday,T:Tuesday,W:Wednesday,T:Thursday,F:Friday"></done-select>
+                          simple-combo="Y" values="1:Monday,2:Tuesday,3:Wednesday,4:Thursday,5:Friday"></done-select>
                             </div>
                         </div>
                          <div class="form-group"><label class="col-lg-2 control-label">Fortnight</label>
@@ -131,4 +129,3 @@
             </div>    
         </div>
     </div>
-</div>
