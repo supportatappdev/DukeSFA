@@ -23,4 +23,4 @@ function getBaseURL() {
 function getAppName(p) {
    return "/";
 }
-var _appUrl = "http://202.53.13.76:8080";//getBaseURL()+getAppName(window.location.pathname);
+var _appUrl = "http://202.53.13.76:9192";//getBaseURL()+getAppName(window.location.pathname);
