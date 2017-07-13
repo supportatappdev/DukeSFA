@@ -461,36 +461,56 @@ angular.module("doneComponentsSet", [])
       
     function DoneStore(id,customObject) { 
         var deferred = $q.defer();
-            this.data = {};
-            this.id = id;
-            this.customObject = customObject;
-            this.wc;
-            this.wcParams = [];
-            this.isCountQuery = 'N';
-            this.offset = 0;
-            this.limit = 20;
+            var data = {};
+            var id = id;
+            var customObject = customObject;
+            var wc;
+            var wcParams = [];
+            var isCountQuery = 'N';
+            var offset = 0;
+            var limit = 20;
+            var orderBy;
+            var beforeQueryCallback;
+            this.setOffset = function(_offset) {
+                 offset = _offset;
+            }
+            this.setOrderBy = function(_orderBy) {
+                 orderBy = _orderBy;
+            }
+            this.setLimit = function(_limit) {
+                limit = _limit;
+            }
+            this.getLimit = function() {
+                return limit ;
+            }
             this.setWhereClause = function(whereClause){
-               this.wc = whereClause;
+               wc = whereClause;
             }
             this.setWhereClauseParams = function(params) {
-                this.wcParams = params;
+                wcParams = params;
             }
-            this.query = function(){ 
+            this.beforeQueryListener = function(callback) {
+                beforeQueryCallback = callback;
+            }
+            this.query = function(){
+                if(beforeQueryCallback) {
+                    beforeQueryCallback();
+                }
                 var resultCallback = function(result) {
                     var _item = {};
-                    if( this.isCountQuery) {
-                        this.cnt = result.cnt;
-                        this.data  = result.data;
+                    if( isCountQuery && isCountQuery === 'Y') {
+                        cnt = result.cnt;
+                        data  = result.data;
                         _item.cnt = this.cnt;
+                        _item.data = this.data;
                     } else {
-                         this.data = result;
+                         data = result;
+                         _item = result;
                     }
-                    this.offset += this.limit;
-                    _item.data = this.data;
-                    _item.offset = this.offset;
+                    offset += limit;
                      deferred.resolve(_item);
                 }
-               BSServiceUtil.queryResultWithCallback(customObject, "_NOCACHE_", this.wc, this.wcParams, undefined, resultCallback,this.limit,this.offset,this.isCountQuery);
+               BSServiceUtil.queryResultWithCallback(customObject, "_NOCACHE_", wc, wcParams, orderBy, resultCallback,limit,offset,isCountQuery);
                return deferred.promise;
             }
             
