@@ -162,7 +162,7 @@ angular.module("doneComponentsSet", [])
               ngmodel: '=ngModel',
               key:'@keyAttribute',
               label:'@labelAttribute',
-              ngchange:'@ngChange',
+              ngChange:'&',
               whereclause:'@whereClause',
               simplecombo:'@simpleCombo',
               values:'@values',
@@ -460,7 +460,6 @@ angular.module("doneComponentsSet", [])
   .factory('DoneStore', function(BSServiceUtil,$q) {
       
     function DoneStore(id,customObject) { 
-        var deferred = $q.defer();
             var data = {};
             var id = id;
             var customObject = customObject;
@@ -493,6 +492,7 @@ angular.module("doneComponentsSet", [])
                 beforeQueryCallback = callback;
             }
             this.query = function(){
+                 var deferred = $q.defer();
                 if(beforeQueryCallback) {
                     beforeQueryCallback();
                 }
