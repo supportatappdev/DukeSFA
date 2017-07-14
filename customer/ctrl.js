@@ -213,6 +213,7 @@ angular
                 inputJSON.item_qty = $scope.order[k].quantity;
                  inputJSON.item_amount = $scope.order[k].price;
                  inputJSON.item_scheme_amount = 0;
+                 inputJSON.item_tax_amount = parseInt($scope.order[k].sgst)+parseInt($scope.order[k].cgst);
                  var _item = {
                 'ds': 'SFOrderDetRef',
                 'operation': 'INSERT',
@@ -285,16 +286,19 @@ angular
                 po.price = selproduct.ctnr_price;
                 po.prodname = selproduct.prd_name;
                 po.id = selproduct.id;
-                po.sgst = selproduct.sgst;
-                po.cgst = selproduct.cgst;
+                po.uom = selproduct.uom;
+                po._sgst = selproduct.sgst;
+                po._cgst = selproduct.cgst;
             }
             
         $scope.setTotal = function(po) {
-                po.total = $filter('number')((po.price*po.quantity)+(po.sgst + po.cgst),2);
+                po.sgst = $filter('number')((po.price * po._sgst)/100,2);
+                po.cgst = $filter('number')((po.price * po._cgst)/100,2);
+                var _gdTotal = parseInt(po.price*po.quantity);
+                po.total = $filter('number')(_gdTotal,2);
                 var _totAmount = 0;
                 angular.forEach($scope.order, function(po){
-                    _totAmount += po.price*po.quantity ;
-                    _totAmount += (po.sgst + po.cgst);
+                    _totAmount += parseInt(po.total);
                 }); 
                 $scope.totalAmount = $filter('number')(_totAmount,2);
                 $scope.totalAmountNumber = _totAmount;
