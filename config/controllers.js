@@ -7,7 +7,7 @@ angular
     $scope._appUrl = _appUrl;
     $scope.pageTitle = "Journey Plan";
     $scope.params = {};
-    
+    $scope.params.isStrartDay = false;
     $scope.logout = function() {
          	$http.get(_appUrl+'/api/logout').
 	  success(function(data, status, headers, config) {
