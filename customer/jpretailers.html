@@ -1,3 +1,8 @@
+<style>
+.btn-sm-circle {
+    
+}    
+</style>
 <div class="animated fadeInRight" ng-controller="JPRetailsCtrl">
    <div class="row">
             <div class="ibox float-e-margins">
@@ -19,9 +24,24 @@
                     <div class="hr-line-dashed" style="margin:5px 0"></div>
                    <div infinite-scroll='getNextPage()' infinite-scroll-disabled='retailers.retailListLoading' infinite-scroll-distance='2'>
                       <div ng-repeat='cts in retailers.spRetailList | filter:search'>
-                    <div class="search-result" ng-click="startCall(cts.cid)">
+                         <div class="search-result" ng-click="startCall(cts)">
                         <h3><a href="">{{cts.cust_name}}</a></h3>
-                        <a  class="search-link">[{{cts.cust_code}}]</a>
+                        <a  class="search-link">
+                            <small class="pull-right text-navy" ng-if="cts.visited > 0">
+                            <strong>Visited</strong>
+                            </small>
+                            <small class="pull-right text-navy" ng-if="cts.productive > 0">
+                            <button class="btn btn-info m-r-sm"
+                            style="width: 20px; height: 20px; padding: 1px 0;border-radius: 15px;text-align: center;font-size: 12px;line-height: 1.428571429;margin-top:-2px" type="button">
+                            <i class="fa fa-check"></i>
+                            </button>
+                            </small>
+                             <small class="pull-right text-navy" ng-if="cts.productive === 0">
+                            <button class="btn btn-btn-default m-r-sm"
+                            style="width: 20px; height: 20px; padding: 1px 0;border-radius: 15px;text-align: center;font-size: 12px;line-height: 1.428571429;margin-top:-2px" type="button">
+                            </button>
+                            </small>
+                        </a>
                         <p>
                           {{cts.addr_line1}}
                           {{cts.route_name}}
@@ -44,5 +64,4 @@
                     <!--</div>-->
                 </div>
             </div>
-</div>
 </div>
