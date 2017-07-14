@@ -1,12 +1,10 @@
 <div class="inmodal">
-    <div class="modal-header">
-    <h4 class="modal-title"><i class="fa fa-spinner fa-spin" ng-show="loadDetData"></i> 
-    {{inv.cust_name}} [{{inv.cust_code}}] 
-    Order No: {{inv.order_no}} Date: {{inv.creation_date | date:'dd/MM/yyyy'}}</h4> 
-</div>
-    <div class="ibox-content  m-b-sm border-bottom">
-    <div style="max-height:500px;overflow:auto">
-        <table class="table table-bordered">
+<div class="panel panel-default">
+                                <div class="panel-heading">
+                                   <strong><i class="fa fa-copyright"></i> Order No: {{inv.order_no}}</strong>
+                                </div>
+                                <div class="panel-body">
+                                     <table class="table table-bordered">
         <thead>
             <tr>
                 <!--th>SNo</th-->
@@ -16,7 +14,7 @@
                 <th>Unit Price</th>
                 <th>No. of Units</th-->
                 <th>Quantity</th>
-                <th>Item Amount</th>
+                <th>Amount</th>
             </tr>
         </thead>
         <tbody>
@@ -25,7 +23,7 @@
                 <!--td>{{stat.prd_code}}</td-->
                 <td>
                 {{stat.prd_name}} [{{stat.prd_code}}]<BR>
-                1 {{stat.uom}} Price : {{stat.uom_price}}<BR>
+                 {{stat.uom}} Price : {{stat.uom_price}}<BR>
                 Num of {{stat.uom}}s : {{stat.no_of_uoms}}
                 </td>
                 <!--td>{{stat.uom}}</td>
@@ -36,9 +34,9 @@
             </tr>
         </tbody>
         </table>
-    </div>
-</div>
-    <div class="modal-footer"> 
-    <button ng-hide="hideCancel" type="button" class="btn btn-white" ng-click="close()">Close</button> 
-</div>
+        <button ng-hide="hideCancel" type="button" class="btn btn-white pull-right" ng-click="close()"><i class="fa fa-times"></i> Close</button> 
+            
+        </div>
+
+</div>                 
 </div>
