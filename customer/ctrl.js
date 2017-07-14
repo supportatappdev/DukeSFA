@@ -325,7 +325,7 @@ angular
 
 angular
     .module('mymobile3')
-    .controller('AddCustCtrl', function AddCustCtrl(DoneStoreCache,GeoLocation,Util,BSServiceUtil,$state,$stateParams,$scope,Cache,$location,AlertService,$http,BSService) {
+    .controller('AddCustCtrl', function AddCustCtrl($timeout,DoneStoreCache,GeoLocation,Util,BSServiceUtil,$state,$stateParams,$scope,Cache,$location,AlertService,$http,BSService) {
         $("body").removeClass("mini-navbar");
         var _operation = 'INSERT';
         var _custId = $stateParams.id;
@@ -378,28 +378,28 @@ angular
         //     }
         // }
          var _custStore = DoneStoreCache.create("_keyFISFCustomerRef","FISFCustomerRef");
-         _custStore.setWhereClause("id = ?");
-         _custStore.setOrderBy("last_update_date desc");
-         _custStore.setWhereClauseParams([ _custId]);
+        $scope.x = {};
         var getCustomer = function() {
-            var callback = function(result) {
+          $timeout( 
+           _custStore.query().then(function(result) {
                  $scope.cust = result.data[0];
-                 $scope.customerchannel = $scope.cust.channel_id;
-                 $scope.customertype = $scope.cust.customer_type_code;
-                 $scope.customergroup = $scope.cust.customer_group_code;
-                 $scope.tradetype = $scope.cust.trade_type_code;
-                 $scope.jpDay = $scope.cust.jp_id;
-                 $scope.fortnight = $scope.cust.visit_type;
+                     $scope.customerchannel = $scope.cust.channel_id;
+                     $scope.customertype = parseInt($scope.cust.customer_type_code);
+                     $scope.customergroup = parseInt($scope.cust.customer_group_code);
+                     $scope.tradetype = $scope.cust.trade_type_code;
+                     $scope.jpDay = $scope.cust.jp_id+"";
+                     $scope.fortnight = $scope.cust.visit_type+"";
                  $scope.salesrepdetials.dstid = $scope.cust.dstb_id;
                  $scope.salesrepdetials.tid = $scope.cust.terri_id;
                  $scope.salesrepdetials.rid = $scope.cust.route_id;
-            }
-           _custStore.query().then(callback);
+            }),1000);
          }
-        
          
         if(_custId !== 'new') {
             _operation = 'UPDATE';
+            _custStore.setWhereClause(" id = ? ");
+            _custStore.setWhereClauseParams([ _custId]);
+            _custStore.setOffset(0);
              getCustomer();
              $scope.btnTxt = "Update Customer";
         } else {
@@ -409,7 +409,7 @@ angular
         $scope.addcspinner = true;
         var inputJSON = $scope.cust;
          inputJSON.channel_id = $scope.customerchannel;
-         inputJSON.customer_type_code = $scope.customertype;
+         inputJSON.customer_type_code = $scope.customertype+"";
          inputJSON.customer_group_code = $scope.customergroup;
          inputJSON.trade_type_code = $scope.tradetype;
          inputJSON.jp_id = $scope.jpDay;
@@ -450,3 +450,29 @@ angular
             $location.path("/index/listcust");
         }
     });
+
+// var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+// var firstDay = new Date(y, m, 1);
+// var lastDay = new Date(y, m + 1, 0);
+
+// Date.prototype.addDays = function(days) {
+//       var dat = new Date(this.valueOf())
+//       dat.setDate(dat.getDate() + days);
+//       return dat;
+//   }
+
+//   function getDates(startDate, stopDate) {
+//       var dateArray = new Array();
+//       var currentDate = startDate;
+//       while (currentDate <= stopDate) {
+//         dateArray.push(currentDate)
+//         currentDate = currentDate.addDays(1);
+//       }
+//       return dateArray;
+//     }
+
+// var dateArray = getDates(new Date(), (new Date()).addDays(10));
+// for (i = 0; i < dateArray.length; i ++ ) {
+//     alert (dateArray[i]);
+// }
+ 
