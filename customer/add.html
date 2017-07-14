@@ -58,7 +58,7 @@
                         </div>
                         <div class="form-group"><label class="col-lg-2 control-label">Customer Type</label>
                             <div class="col-lg-10">
-                          <done-select ng-model="customertype" ng-change="select()" 
+                          <done-select ng-model="customertype"  
                           custom-object="SFCustomerTypeRef" 
                           key-attribute="id" 
                           label-attribute="custtype_name"></done-select>
@@ -66,7 +66,7 @@
                         </div>
                          <div class="form-group"><label class="col-lg-2 control-label">Customer Group</label>
                             <div class="col-lg-10">
-                          <done-select ng-model="customergroup" ng-change="select()" 
+                          <done-select ng-model="customergroup"  
                           custom-object="SFCustomerGroupRef" 
                           key-attribute="id" 
                           label-attribute="custgrp_name"></done-select>
@@ -75,7 +75,7 @@
                      </div>
                          <div class="form-group"><label class="col-lg-2 control-label">Channel</label>
                             <div class="col-lg-10">
-                          <done-select ng-model="customerchannel" ng-change="select()" 
+                          <done-select ng-model="customerchannel"  
                           custom-object="SFChannelRef" 
                           key-attribute="id" 
                           label-attribute="channel_name"></done-select>
@@ -85,7 +85,7 @@
                          <div class="form-group"><label class="col-lg-2 control-label">Trade Type</label>
                             <div class="col-lg-10">
                           <done-select ng-model="tradetype" 
-                          ng-change="select()" 
+                           
                           simple-combo="Y" values="RR:Project Preimum,GT:General Trade"></done-select>
                         </div>
                         
@@ -93,14 +93,13 @@
                          <div class="form-group"><label class="col-lg-2 control-label">JP Day</label>
                             <div class="col-lg-10">
                            <done-select ng-model="jpDay" 
-                          ng-change="select()" 
+                           
                           simple-combo="Y" values="1:Monday,2:Tuesday,3:Wednesday,4:Thursday,5:Friday"></done-select>
                             </div>
                         </div>
                          <div class="form-group"><label class="col-lg-2 control-label">Fortnight</label>
                             <div class="col-lg-10">
                            <done-select ng-model="fortnight" 
-                          ng-change="select()" 
                           simple-combo="Y" values="0:1-3,1:2-4"></done-select>
                             </div>
                         </div>
