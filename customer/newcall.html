@@ -23,16 +23,19 @@
                                         <td>
                                         <div>
                                         Type:
-                                             <done-select ng-model="x.selproducttype" ng-change="loadProducts()" 
-                                                          custom-object="SFProductTypeRef" 
-                                                          key-attribute="id" 
-                                                          label-attribute="prdtype_name">
-                                              </done-select>
+                                             <!--<done-select ng-model="po.selproducttype" ng-change="loadProducts(po)" -->
+                                             <!--             custom-object="SFProductTypeRef" -->
+                                             <!--             key-attribute="id" -->
+                                             <!--             label-attribute="prdtype_name">-->
+                                             <!-- </done-select>-->
+                                               <select class="form-control"  ng-model="po.selproducttype"   ng-change="loadProducts(po)"
+                                            ng-options="p.id as p.prdtype_name for p in producttypes">
+                                            </select> 
                                          </div>
                                          <div>
                                           Product:
-                                             <select class="form-control" ng-model="selproduct"  ng-change="setProdDetails(selproduct,po)"
-                                            ng-options="p as p.prd_name for p in products">
+                                             <select class="form-control" ng-model="po.selproduct"  ng-change="setProdDetails(po.selproduct,po)"
+                                            ng-options="p as p.prd_name for p in po.products">
                                             </select> 
                                              <!--<done-select ng-model="selproduct" ng-change="setProdDetails(selproduct,po)" -->
                                              <!--             custom-object="SFProductRef" -->
@@ -84,4 +87,3 @@
     
         </div>
     </div>
-</div>
