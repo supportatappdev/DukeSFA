@@ -113,9 +113,12 @@ angular
             $scope.retailers.offset = ($scope.retailers.offset + $scope.retailers.limit);
             loadReatils("N");
         }
-        $scope.startCall = function(id) {
+        $scope.startCall = function(item) {
+            if(item.visited > 0) {
+                return;
+            }
             var callback = function() {
-                $location.path("/index/newcall/"+id);
+                $location.path("/index/newcall/"+item.cid);
             }
             if(!$scope.params.isStrartDay) {
                 AlertService.showConfirm("Info","Your day haven't started yet. Do you wish to start yoru day?",callback);
@@ -130,17 +133,27 @@ angular
        $scope._currDate = new Date();
        $scope.params.isStrartDay = true;
        var _productsStore = DoneStoreCache.create("_keySFProductViewRef2","SFProductViewRef");
+       var _productTypesStore = DoneStoreCache.create("_keySFProductTypeRef2","SFProductTypeRef");
+       
        $scope.x = {};
-       $scope.loadProducts = function() {
+       $scope.loadProducts = function(po) {
             _productsStore.setWhereClause("prdtype_id = ?");
             _productsStore.setLimit(300);
             _productsStore.setOffset(0);
-            _productsStore.setWhereClauseParams([$scope.x.selproducttype]);
+            _productsStore.setWhereClauseParams([po.selproducttype]);
             _productsStore.query().then(function(result) {
-                    $scope.products = result.data;
+                po.products = result.data;
             });
-           // BSServiceUtil.queryResultWithCallback("SFProductViewRef", "_NOCACHE_", " prdtype_id ", "", undefined, products);
+            //BSServiceUtil.queryResultWithCallback("SFProductViewRef", "_NOCACHE_", " prdtype_id = ?", [po.selproducttype], undefined, callback,300,0);
        }
+      loadProductTypes = function() {
+            _productTypesStore.setLimit(300);
+            _productTypesStore.setOffset(0);
+            _productTypesStore.query().then(function(result) {
+                $scope.producttypes = result.data;
+            });
+       }
+       loadProductTypes();
        //loadProducts();
        var startCall = function() {
             var inputJSON = {};
@@ -169,7 +182,7 @@ angular
                 inputJSON.customer_id = $stateParams.id;
                 inputJSON.order_no = "SO-05062017-"+$scope.callid;
                 inputJSON.order_amount = $scope.totalAmountNumber;
-                inputJSON.item_count = $scope.products.length;
+                inputJSON.item_count = $scope.order.length;
                 inputJSON.order_tax_amount = 0;
                  inputJSON.isGenIds = "Y";
                  var params = {
@@ -214,7 +227,7 @@ angular
                 if (result.status === "E") {
                     AlertService.showError("Validation Error",result.errorMsg);
                 }  else {
-                    endCall();
+                    endCall(orderId);
                 }
             });            
        }
@@ -224,6 +237,8 @@ angular
                 inputJSON.id = $scope.callid;
                 inputJSON.call_end_time = Util.convertDBDate(new Date());
                 inputJSON.order_id = orderId;
+                inputJSON.is_teleorder = 0;
+                inputJSON.is_productive = 1;
                 inputJSON.custUpdate = "Y";
                  var params = {
                 'ds': 'FISfCustomerVisitRef',
@@ -297,7 +312,7 @@ angular
         $scope.totalAmountNumber = 0;
         $scope.addNew = function($event){
             $event.preventDefault();
-            $scope.order.push( {selected:false,prodname:'',quantity:'',price:'',grams:'',no_of_packs:'',loadability:''});
+            $scope.order.push( {selected:false,selproducttype:'',prodname:'',quantity:'',price:'',grams:'',no_of_packs:'',loadability:''});
         };
         $scope.remove = function(){
                 var newDataList=[];
@@ -475,4 +490,3 @@ angular
 // for (i = 0; i < dateArray.length; i ++ ) {
 //     alert (dateArray[i]);
 // }
- 
