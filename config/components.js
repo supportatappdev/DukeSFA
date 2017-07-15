@@ -422,6 +422,10 @@ angular.module("doneComponentsSet", [])
     /**
      * Pie Chart Options
      */
+     /**
+     * Line Chart Data
+     */
+   $scope.chartData = [   ];
     $scope.chartOptions = {
         series: {
             pie: {
