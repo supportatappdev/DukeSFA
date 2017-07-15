@@ -366,7 +366,7 @@ angular
             var callback = function() {
                     $scope.getLatitudeLongitude();
             }
-            DoneMsgbox.show("Warning","Warning!","Do you want to capture customer location?",'Y')
+            DoneMsgbox.show("Info","Alert!","Do you want to capture customer location?",'Y')
                     .then(function(){
                        callback();
                     }, function(){
