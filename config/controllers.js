@@ -65,7 +65,7 @@ angular
          _store.setWhereClauseParams([Cache.loggedInUser().uId]);
          _store.query().then(function(item){
              $scope.salesrep = item.data[0];
-              $location.path("/index/listcustjp");
+              $location.path("/index/db");
          });
          var _storeSP = DoneStoreCache.create("_keySPREFDet","SFGetSPDeailsRef");
          _storeSP.setWhereClause("user_id = ?");
