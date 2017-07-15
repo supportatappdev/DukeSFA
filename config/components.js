@@ -528,14 +528,14 @@ angular.module("doneComponentsSet", [])
                            + '</div>'
                            + '<div class="panel-footer" ng-if="footer === Y">'
                            +   '<button class="btn btn-primary btn-sm" data-ng-click="ok($event)"><i class="fa fa-check-circle"></i> Ok</button> '
-                           + '<button class="btn btn-default btn-sm" data-ng-click="cancel($event)"><i class="fa fa-times"></i> Cancel</button>'
+                           + '<button class="btn btn-default btn-sm" data-ng-click="cancel($event)" data-ng-show="isConfirm"><i class="fa fa-times"></i> Cancel</button>'
                            + '</div>'
                         + '</div>';
                        
     var scope = $rootScope.$new();
     
     return {
-        show: function(type,title,msg, opts){
+        show: function(type,title,msg,isConfirm, opts){
             var defer = $q.defer();
             opts = opts || {};
             
@@ -545,10 +545,11 @@ angular.module("doneComponentsSet", [])
                 controller: function($scope, $modalInstance){
                     $scope.title = title;
                     $scope.message = msg;
+                    $scope.isConfirm = isConfirm === 'Y'?true:false;
                     if(type === 'Error') {
                        $scope.msgstyle  = "panel-danger";
                     } else if(type === 'Info') {
-                       $scope.msgstyle  = "panel-success";
+                       $scope.msgstyle  = "panel-primary";
                     } else {
                        $scope.msgstyle  = "panel-warning"; 
                     }
