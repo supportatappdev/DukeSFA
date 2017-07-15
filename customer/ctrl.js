@@ -121,7 +121,7 @@ angular
                 $location.path("/index/newcall/"+item.cid);
             }
             if(!$scope.params.isStrartDay) {
-                DoneMsgbox.show("Warning","Warning!","Your day haven't started yet. Do you wish to start yoru day?")
+                DoneMsgbox.show("Warning","Warning!","Your day haven't started yet. Do you wish to start yoru day?",'Y')
                     .then(function(){
                        callback();
                     }, function(){
@@ -366,7 +366,7 @@ angular
             var callback = function() {
                     $scope.getLatitudeLongitude();
             }
-            DoneMsgbox.show("Warning","Warning!","Do you want to capture customer location?")
+            DoneMsgbox.show("Warning","Warning!","Do you want to capture customer location?",'Y')
                     .then(function(){
                        callback();
                     }, function(){
@@ -473,7 +473,7 @@ angular
                     if(_operation == 'UPDATE') {
                         _op = "Updated";
                     }
-                    AlertService.showInfo("Warning",_op+" retailer ["+$scope.cust.cust_name+"]  successfully");
+                    AlertService.showInfo("Info",_op+" retailer ["+$scope.cust.cust_name+"]  successfully");
                     $scope.gotoCustomers();
                 }
                 $scope.addcspinner  =false;
