@@ -522,7 +522,7 @@ angular.module("doneComponentsSet", [])
 }) 
  .factory("DoneMsgbox", function($rootScope, $modal, $q){
     var msg_tpl = '<style> .panel-warning {} .panel-footer { background-color:#ffffff; margin-bottom: -15px; padding: 5px 0px 0px 5px; border-top: 1px solid #ddd; border-bottom-right-radius: 3px;border-bottom-left-radius: 3px;}</style><div class="panel {{msgstyle}}">' 
-                           + '<div class="panel-heading">{{title}}</div>'
+                           + '<div class="panel-heading"><i class="{{icon}}"></i> {{title}}</div>'
                            + '<div class="panel-body">'
                            +   '<p>{{message}}</p>'
                            + '</div>'
@@ -548,10 +548,13 @@ angular.module("doneComponentsSet", [])
                     $scope.isConfirm = isConfirm === 'Y'?true:false;
                     if(type === 'Error') {
                        $scope.msgstyle  = "panel-danger";
+                       $scope.icon = "fa fa-bug";
                     } else if(type === 'Info') {
                        $scope.msgstyle  = "panel-primary";
+                       $scope.icon = "fa fa-info";
                     } else {
                        $scope.msgstyle  = "panel-warning"; 
+                       $scope.icon = "fa fa-warning";
                     }
                     if(opts.footer == 'Y') {
                         $scope.footer = 'Y';
