@@ -1,4 +1,4 @@
-function orderconfig($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
+function eod($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
     $stateProvider
         .state('index.eod', {
@@ -9,7 +9,7 @@ function orderconfig($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 }
 angular
     .module('mymobile3')
-    .config(orderconfig)
+    .config(eod)
     .run(function($rootScope, $state) {
         $rootScope.$state = $state;
         $rootScope.appName = "mymobile3";
