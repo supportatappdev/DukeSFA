@@ -354,7 +354,7 @@ angular
 
 angular
     .module('mymobile3')
-    .controller('AddCustCtrl', function AddCustCtrl($timeout,DoneStoreCache,GeoLocation,Util,BSServiceUtil,$state,$stateParams,$scope,Cache,$location,AlertService,$http,BSService) {
+    .controller('AddCustCtrl', function AddCustCtrl(DoneMsgbox,$timeout,DoneStoreCache,GeoLocation,Util,BSServiceUtil,$state,$stateParams,$scope,Cache,$location,AlertService,$http,BSService) {
         $("body").removeClass("mini-navbar");
         var _operation = 'INSERT';
         var _custId = $stateParams.id;
@@ -366,7 +366,12 @@ angular
             var callback = function() {
                     $scope.getLatitudeLongitude();
             }
-            AlertService.showConfirm("Warning","Do you want to capture customer location?",callback);
+            DoneMsgbox.show("Warning","Warning!","Do you want to capture customer location?")
+                    .then(function(){
+                       callback();
+                    }, function(){
+                    });
+            //AlertService.showConfirm("Warning","Do you want to capture customer location?",callback);
         }
         $scope.getLatitudeLongitude = function() {
            $scope.getlatlong = true;
