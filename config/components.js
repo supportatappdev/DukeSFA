@@ -527,8 +527,8 @@ angular.module("doneComponentsSet", [])
                            +   '<p>{{message}}</p>'
                            + '</div>'
                            + '<div class="panel-footer" ng-if="footer === Y">'
-                           +   '<button class="btn btn-primary btn-sm" data-ng-click="ok($event)">Ok</button> '
-                           + '<button class="btn btn-default btn-sm" data-ng-click="cancel($event)">Cancel</button>'
+                           +   '<button class="btn btn-primary btn-sm" data-ng-click="ok($event)"><i class="fa fa-check-circle"></i> Ok</button> '
+                           + '<button class="btn btn-default btn-sm" data-ng-click="cancel($event)"><i class="fa fa-times"></i> Cancel</button>'
                            + '</div>'
                         + '</div>';
                        
