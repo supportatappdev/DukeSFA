@@ -285,66 +285,41 @@ mymobile3.factory('BSService', function($resource) {
     });
 });
 var infoTemplate =  'common/notify.html';
-mymobile3.service('AlertService', function(SweetAlert,notify) {
+
+mymobile3.service('AlertService', function(DoneMsgbox,SweetAlert,notify) {
     this.showError = function(errTitle, errMessage) {
-        SweetAlert.swal({
-            title: errTitle,
-            text: errMessage,
-            type: "error"
-        });
+         DoneMsgbox.show("Error",errTitle,errMessage);
+        // SweetAlert.swal({
+        //     title: errTitle,
+        //     text: errMessage,
+        //     type: "error"
+        // });
     }
     this.showConfirm = function(errTitle, errMessage,callback) {
-        SweetAlert.swal({
-              title:errTitle,
-              text: errMessage,
-              type: "warning",
-              showCancelButton: true,
-              confirmButtonColor: "#DD6B55",
-              cancelButtonText: "No",
-              confirmButtonText: "Yes",
-              closeOnConfirm: true,
-              closeOnCancel: true
-            },
-            function(isConfirm){
-              if (isConfirm) {
-                  callback();
-              }
-        });
+         DoneMsgbox.show("Warning",errTitle,errMessage)
+                    .then(function(){
+                       callback();
+                    }, function(){
+                    });
     }
     this.showWarning = function(errTitle, errMessage) {
-        SweetAlert.swal({
-            title: errTitle,
-            text: errMessage,
-            type: "warning"
-        });
+        DoneMsgbox.show("Warning",errTitle,errMessage);
     }
     this.showInfo = function(title, message) {
-        SweetAlert.swal({
-            title: title,
-            text: message,
-            type: "info"
-        });
+        DoneMsgbox.show("Info",title,message);
     }
     this.showNotifyError =  function(title) {
-         notify({ message: title ,
-                     classes: 'alert-danger', 
-                     templateUrl: infoTemplate});
+         DoneMsgbox.show("Error","Error",title);
     }
     this.showNotifyWarning =  function(title) {
-         notify({ message: title ,
-                     classes: 'alert-warning', 
-                     templateUrl: infoTemplate});
+         DoneMsgbox.show("Warning","Warning",title);
     }
     this.showNotifySuccess =  function(title) {
-         notify({ message: title ,
-                     classes: 'alert-success', 
-                     templateUrl: infoTemplate});
+          DoneMsgbox.show("Info","Info",message);
     }
     
     this.showNotifyInfo =  function(title) {
-         notify({ message: title ,
-                     classes: 'alert-info', 
-                     templateUrl: infoTemplate});
+         DoneMsgbox.show("Info","Info",message);
     }
     
 });
