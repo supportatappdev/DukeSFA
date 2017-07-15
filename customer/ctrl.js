@@ -77,7 +77,7 @@ angular
 });
 angular
     .module('mymobile3')
-    .controller('JPRetailsCtrl', function CustCtrl($scope,Cache,$location,AlertService,$http,BSServiceUtil) {
+    .controller('JPRetailsCtrl', function CustCtrl(DoneMsgbox,$scope,Cache,$location,AlertService,$http,BSServiceUtil) {
        $scope._currDate = new Date();
         $("body").removeClass("mini-navbar");
         $scope.retailers = {
@@ -121,7 +121,11 @@ angular
                 $location.path("/index/newcall/"+item.cid);
             }
             if(!$scope.params.isStrartDay) {
-                AlertService.showConfirm("Info","Your day haven't started yet. Do you wish to start yoru day?",callback);
+                DoneMsgbox.show("Warning","Warning!","Your day haven't started yet. Do you wish to start yoru day?")
+                    .then(function(){
+                       callback();
+                    }, function(){
+                    });
             } else {
                 callback();
             }
@@ -183,7 +187,11 @@ angular
                 inputJSON.order_no = "SO-05062017-"+$scope.callid;
                 inputJSON.order_amount = $scope.totalAmountNumber;
                 inputJSON.item_count = $scope.order.length;
-                inputJSON.order_tax_amount = 0;
+                var _taxAmount = 0;
+                 for(var k = 0; k < $scope.order.length; k++) {
+                     _taxAmount =  Number(_taxAmount) + Number(parseInt($scope.order[k].sgst)+parseInt($scope.order[k].cgst));
+                 }
+                inputJSON.order_tax_amount = _taxAmount;
                  inputJSON.isGenIds = "Y";
                  var params = {
                 'ds': 'FISFOrderRef',
@@ -294,11 +302,13 @@ angular
         $scope.setTotal = function(po) {
                 po.sgst = $filter('number')((po.price * po._sgst)/100,2);
                 po.cgst = $filter('number')((po.price * po._cgst)/100,2);
-                var _gdTotal = parseInt(po.price*po.quantity);
-                po.total = $filter('number')(_gdTotal,2);
+                po.sgst = $filter('number')(po.quantity * po.sgst,2);
+                po.cgst = $filter('number')(po.quantity * po.cgst,2);
+                po.total = $filter('number')(parseFloat(po.price*po.quantity),2);
+                po.ntotal = parseFloat(po.price*po.quantity);
                 var _totAmount = 0;
                 angular.forEach($scope.order, function(po){
-                    _totAmount += parseInt(po.total);
+                    _totAmount = Number(_totAmount) + Number(parseFloat(po.ntotal));
                 }); 
                 $scope.totalAmount = $filter('number')(_totAmount,2);
                 $scope.totalAmountNumber = _totAmount;
