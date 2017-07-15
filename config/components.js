@@ -210,7 +210,6 @@ angular.module("doneComponentsSet", [])
         }
     }
     })
- 
  .directive('bindHtmlCompile', ['$compile', function ($compile) {
         return {
             restrict: 'A',
@@ -457,7 +456,7 @@ angular.module("doneComponentsSet", [])
      }
     }
     })
-  .factory('DoneStore', function(BSServiceUtil,$q) {
+ .factory('DoneStore', function(BSServiceUtil,$q) {
       
     function DoneStore(id,customObject) { 
             var data = {};
@@ -520,6 +519,60 @@ angular.module("doneComponentsSet", [])
             return new DoneStore(id,customObject);
         }
     };
+}) 
+ .factory("DoneMsgbox", function($rootScope, $modal, $q){
+    var msg_tpl = '<style> .panel-warning {} .panel-footer { background-color:#ffffff; margin-bottom: -15px; padding: 5px 0px 0px 5px; border-top: 1px solid #ddd; border-bottom-right-radius: 3px;border-bottom-left-radius: 3px;}</style><div class="panel {{msgstyle}}">' 
+                           + '<div class="panel-heading">{{title}}</div>'
+                           + '<div class="panel-body">'
+                           +   '<p>{{message}}</p>'
+                           + '</div>'
+                           + '<div class="panel-footer" ng-if="footer === Y">'
+                           +   '<button class="btn btn-primary btn-sm" data-ng-click="ok($event)">Ok</button> '
+                           + '<button class="btn btn-default btn-sm" data-ng-click="cancel($event)">Cancel</button>'
+                           + '</div>'
+                        + '</div>';
+                       
+    var scope = $rootScope.$new();
+    
+    return {
+        show: function(type,title,msg, opts){
+            var defer = $q.defer();
+            opts = opts || {};
+            
+            $modal.open({
+                template: msg_tpl,
+                scope: scope,
+                controller: function($scope, $modalInstance){
+                    $scope.title = title;
+                    $scope.message = msg;
+                    if(type === 'Error') {
+                       $scope.msgstyle  = "panel-danger";
+                    } else if(type === 'Info') {
+                       $scope.msgstyle  = "panel-success";
+                    } else {
+                       $scope.msgstyle  = "panel-warning"; 
+                    }
+                    if(opts.footer == 'Y') {
+                        $scope.footer = 'Y';
+                    }
+                    $scope.ok = function($event){
+                        $event.preventDefault();
+                        $modalInstance.close();
+                        defer.resolve();
+                    };
+                    $scope.cancel = function($event){
+                        $event.preventDefault();
+                        $modalInstance.close();
+                        defer.reject();
+                    };
+                },
+                size: "sm",
+                backdrop: "static",
+                keyboard: false
+            });
+            return defer.promise;
+        }
+    }    
 }) 
  .service('DoneStoreCache',function(AlertService,DoneStore){
      this.map = {};
