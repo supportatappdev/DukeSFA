@@ -328,15 +328,17 @@ angular
             $event.preventDefault();
             $scope.order.push( {selected:false,selproducttype:'',prodname:'',quantity:'',price:'',grams:'',no_of_packs:'',loadability:''});
         };
-        $scope.remove = function(){
+        $scope.remove = function($index){
                 var newDataList=[];
                 $scope.selectedAll = false;
-                angular.forEach($scope.order, function(selected){
-                    if(!selected.selected){
-                        newDataList.push(selected);
-                    }
-                }); 
-                $scope.order = newDataList;
+                $scope.totalAmount = $scope.totalAmount - $scope.order[$index].total;
+                $scope.order.splice($index, 1);
+                // angular.forEach($scope.order, function(selected){
+                //     if(!selected.selected){
+                //         newDataList.push(selected);
+                //     }
+                // }); 
+                // $scope.order = newDataList;
             };
         $scope.selectedAll  = false;
         $scope.checkAll = function () {
