@@ -11,14 +11,13 @@
                        <table class="table  table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Product</th>
-                                         <th >Total</th>
+                                        <th width="70%">Product</th>
+                                         <th width="30%">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat='po in order'>
                                         <td>
-                                        
                                         <form class="form-horizontal">
                                         <div class="form-group"><label class="col-lg-2 control-label">Type</label>
                                          <div class="col-lg-10">
@@ -50,7 +49,10 @@
                                             <div class="form-group">
                                             <label class="col-lg-12">Price/{{po.uom}}: {{po.price}}</label>
                                             </div>
-                                             <div class="form-group">
+                                            <div class="form-group" ng-if="po.scheme">
+                                            <label class="col-lg-12">Discount @ {{po.scheme}}: {{po.discamount}}</label>
+                                            </div>
+                                            <div class="form-group">
                                             <label class="col-lg-12">SGST @ 9%: {{po.sgst}}</label>
                                             </div>
                                             <div class="form-group">
