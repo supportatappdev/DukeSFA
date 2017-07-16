@@ -7,72 +7,64 @@
         <div >
             <div class="ibox float-e-margins">
                 <div >
-                    <form class="form-horizontal">
+                   
                        <table class="table  table-bordered">
                                 <thead>
                                     <tr>
-                                        <th><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></th>
                                         <th>Product</th>
                                          <th >Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat='po in order'>
-                                        <td class="col-lg-4">
-                                            <input type="checkbox" ng-model="po.selected"/></td>
                                         <td>
-                                        <div>
-                                        Type:
-                                             <!--<done-select ng-model="po.selproducttype" ng-change="loadProducts(po)" -->
-                                             <!--             custom-object="SFProductTypeRef" -->
-                                             <!--             key-attribute="id" -->
-                                             <!--             label-attribute="prdtype_name">-->
-                                             <!-- </done-select>-->
-                                               <select class="form-control"  ng-model="po.selproducttype"   ng-change="loadProducts(po)"
+                                        
+                                        <form class="form-horizontal">
+                                        <div class="form-group"><label class="col-lg-2 control-label">Type</label>
+                                         <div class="col-lg-10">
+                                            <select class="form-control"  ng-model="po.selproducttype"   ng-change="loadProducts(po)"
                                             ng-options="p.id as p.prdtype_name for p in producttypes">
                                             </select> 
-                                         </div>
-                                         <div>
-                                          Product:
+                                        </div>
+                                        </div>
+                                        <div class="form-group"><label class="col-lg-2 control-label">Product</label>
+                                         <div class="col-lg-10">
                                              <select class="form-control" ng-model="po.selproduct"  ng-change="setProdDetails(po.selproduct,po)"
                                             ng-options="p as p.prd_name for p in po.products">
                                             </select> 
-                                             <!--<done-select ng-model="selproduct" ng-change="setProdDetails(selproduct,po)" -->
-                                             <!--             custom-object="SFProductRef" -->
-                                             <!--             key-attribute="id" -->
-                                             <!--             label-attribute="prd_name">-->
-                                             <!-- </done-select>-->
+                                        </div>
+                                        </div>
+                                        <div class="form-group"><label class="col-lg-2 control-label">Qty</label>
+                                         <div class="col-lg-10">
+                                             <input type="text" class="form-control" ng-model="po.quantity" required ng-change="setTotal(po)"/>         
+                                        </div>
+                                        </div>
+                                         <div class="col-lg-12 " style="padding-top:5px">
+                                             <input type="button" class="btn btn-danger pull-right m-l-xs" ng-click="remove($index)" value="Remove">
                                          </div>
-                                         <div>
-                                         Price:    
-                                         <input type="text" class="form-control" ng-model="po.price" disabled/>
-                                        </div>    
-                                         <div>
-                                             Qty:
-                                          <input type="text" class="form-control" ng-model="po.quantity" required ng-change="setTotal(po)"/>         
-                                         </div>       
-                                            </td>
-                                       
+                                         </form>
+                                         </td>
+                                         
                                             <td>
-                                            <div>UOM:{{po.uom}}</div>
-                                             <div>
-                                            Line Total:
-                                            <input type="text" class="form-control" ng-model="po.total"  disabled/>
-                                             </div>
-                                             <div>
-                                            SGST:
-                                            <input type="text" class="form-control" ng-model="po.sgst"  disabled/>
-                                             </div>
-                                             <div>
-                                            CGST:
-                                            <input type="text" class="form-control" ng-model="po.cgst"  disabled/>
-                                             </div>
-                                           
-                                            
+                                            <form class="form-horizontal">
+                                            <div class="form-group">
+                                            <label class="col-lg-12">Price/{{po.uom}}: {{po.price}}</label>
+                                            </div>
+                                             <div class="form-group">
+                                            <label class="col-lg-12">SGST @ 9%: {{po.sgst}}</label>
+                                            </div>
+                                            <div class="form-group">
+                                            <label class="col-lg-12">CGST @ 9%: {{po.cgst}}</label>
+                                            </div>
+                                            <div class="form-group">
+                                            <label class="col-lg-12">Line Total: {{po.total}}</label>
+                                            </div>
+                                           </div> 
+                                           </form>
                                             </td>
                                              
                                         </tr> 
-                                        <tr><td></td><td></td><td>Total: {{totalAmount}}</td></tr>
+                                        <tr><td></td><td>Total: {{totalAmount}}</td></tr>
                                 </tbody>
                             </table>
                             <div class="m-b-xl">
@@ -81,7 +73,6 @@
                                 <input ng-hide="!products.length" type="button" class="btn btn-danger pull-right m-l-xs" ng-click="remove()" value="Remove">
                             </div>
                        
-                    </form>
                 </div>
             </div>
         </div>
