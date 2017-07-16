@@ -220,7 +220,7 @@ angular
                 inputJSON.product_id = $scope.order[k].id;
                 inputJSON.item_qty = $scope.order[k].quantity;
                  inputJSON.item_amount = $scope.order[k].price;
-                 inputJSON.item_scheme_amount = 0;
+                 inputJSON.item_scheme_amount = $scope.order[k].ndiscamount;
                  inputJSON.item_tax_amount = parseInt($scope.order[k].sgst)+parseInt($scope.order[k].cgst);
                  var _item = {
                 'ds': 'SFOrderDetRef',
@@ -290,13 +290,35 @@ angular
             BSServiceUtil.queryResultWithCallback("SFSPRetailJPViewRef", "_NOCACHE_", wc, wcParams, undefined, spRetailResult, $scope.retailers.limit,$scope.retailers.offset);
         }
         loadReatils();
+        
+       $scope.x = {};
+       $scope.loadProducts = function(po) {
+            _productsStore.setWhereClause("prdtype_id = ?");
+            _productsStore.setLimit(300);
+            _productsStore.setOffset(0);
+            _productsStore.setWhereClauseParams([po.selproducttype]);
+            _productsStore.query().then(function(result) {
+                po.products = result.data;
+            });
+       }
+         var _productScheme = DoneStoreCache.create("_keySFSchemeViewRef","SFSchemeViewRef");
+         var loadSchemeDetails = function(po) {
+            _productScheme.setWhereClause("prd_code = ?");
+            _productScheme.setLimit(1);
+            _productScheme.setOffset(0);
+            _productScheme.setWhereClauseParams([po.selproduct.prd_code]);
+            _productScheme.query().then(function(result) {
+                po.scheme = result.data[0].scheme_pcent;
+            });
+         } 
          $scope.setProdDetails = function(selproduct,po) {
-                po.price = selproduct.ctnr_price;
+                po.price = selproduct.pcs_price;
                 po.prodname = selproduct.prd_name;
                 po.id = selproduct.id;
                 po.uom = selproduct.uom;
                 po._sgst = selproduct.sgst;
                 po._cgst = selproduct.cgst;
+                loadSchemeDetails(po);
             }
             
         $scope.setTotal = function(po) {
@@ -304,8 +326,12 @@ angular
                 po.cgst = $filter('number')((po.price * po._cgst)/100,2);
                 po.sgst = $filter('number')(po.quantity * po.sgst,2);
                 po.cgst = $filter('number')(po.quantity * po.cgst,2);
-                po.total = $filter('number')(parseFloat(po.price*po.quantity),2);
-                po.ntotal = parseFloat(po.price*po.quantity);
+                if(po.scheme) {
+                    po.ndiscamount = parseFloat(po.price*po.quantity)*parseFloat(po.scheme)/100;
+                    po.discamount = $filter('number')(parseFloat(po.price*po.quantity)*parseFloat(po.scheme)/100,2);
+                }
+                po.total = $filter('number')((parseFloat(po.price*po.quantity) - po.ndiscamount),2);
+                po.ntotal = parseFloat(po.price*po.quantity) - po.ndiscamount;
                 var _totAmount = 0;
                 angular.forEach($scope.order, function(po){
                     _totAmount = Number(_totAmount) + Number(parseFloat(po.ntotal));
