@@ -20,14 +20,14 @@
         <tbody>
             <tr ng-repeat="stat in invoiceItems">
                 <!--td>{{$index + 1}}</td-->
-                <!--td>{{stat.prd_code}}</td-->
+                <!--td>{{stat.prd_code}}<BR>
+                Num of {{stat.uom}}s : {{stat.no_of_uoms}}</td-->
                 <td>
                 {{stat.prd_name}} [{{stat.prd_code}}]<BR>
-                 {{stat.uom}} Price : {{stat.uom_price}}<BR>
-                Num of {{stat.uom}}s : {{stat.no_of_uoms}}
+                Price / 1 {{stat.uom}} : {{stat.uom_price}} 
                 </td>
                 <td>{{stat.item_qty}}</td>
-                <td>{{stat.item_amount}}</td>
+                <td>{{stat.item_amount | number:2}}</td>
             </tr>
         </tbody>
         </table>
