@@ -28,6 +28,11 @@ function custconfig($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
             templateUrl: "customer/jpretailers.html",
             data: { pageTitle: 'Today Journey' }
         })
+        .state('index.route', {
+            url: "/route",
+            templateUrl: "customer/route.html",
+            data: { pageTitle: 'Route Map' }
+        })
         .state('index.newcall', {
             url: "/newcall/:id",
             templateUrl: "customer/newcall.html",
