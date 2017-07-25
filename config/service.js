@@ -44,6 +44,66 @@ mymobile3.service('BSServiceUtil', function(notify, ExportService, BSService, Ca
     this.removeData = function(key) {
         Cache.remove(key);
     }
+    this.queryResultWithCallbackWithParams = function(inputJSON) {
+         
+        var json = {
+            "ds": inputJSON.ds,
+            "executeCountSql": "N"
+        };
+        if(inputJSON.storeFile && inputJSON.storeFile === "Y") {
+            json.storeFile = "Y";
+        }
+        if (inputJSON.wC) {
+            json.wC = wC;
+        }
+        if (inputJSON.wCparams) {
+            json.params = wCparams;
+        }
+        if (inputJSON.oB) {
+            json.oB = oB;
+        }
+        if (inputJSON.limit) {
+            json.limit = limit;
+        }
+        if (inputJSON.offset) {
+            json.offset = offset;
+        }
+        if (inputJSON.isCount) {
+            json.is_count = "Y";
+        }
+        if (inputJSON.selectClause) {
+            json.select = selectClause;
+        }
+        var _ser = BSService;
+        if (inputJSON.isExport && inputJSON.isExport == "Y") {
+            _ser = ExportService;
+        }
+        _ser.query({
+            "method": "data"
+        }, json, function(result) {
+            if (result.status === "E") {
+                notify({
+                    message: result.title + ' - ' + result.errorMsg,
+                    classes: 'alert-danger'
+                });
+            } else {
+                if (!(inputJSON.isExport == "Y") && result.data.length > 0) {
+                    if (keyName && keyName !== '_NOCACHE_') {
+                        Cache.put(keyName, result.data);
+                    }
+                } //else {
+                if (inputJSON.callback) {
+                    if (inputJSON.isExport == "Y" || isCount) {
+                        inputJSON.callback(result);
+                    } else {
+                        inputJSON.callback(result.data);
+                    }
+                }
+                //callback();
+                //}
+            }
+        });
+    }
     this.queryResultWithCallback = function(dsName, keyName, wC, wCparams, oB, callback, limit, offset, isCount, isExport, selectClause) {
         var inputJSON = {
             "ds": dsName,
