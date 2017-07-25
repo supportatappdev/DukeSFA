@@ -1,0 +1,23 @@
+<div  ng-controller='RouteCtrl'>
+             <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <i class="fa fa-map-marker"></i> Retailer Location
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal">
+                      
+      <ng-map zoom="14" id="my-map"  style="height:90%" on-click="logLatLng()" >
+        <directions 
+          draggable="true"
+          panel="directions-panel"
+          travel-mode="DRIVING"
+          waypoints="{{wayPoints}}"
+          origin="{{origin}}"
+          destination="kakatiya nagar vinayak nagar A S RAO NAGAR">
+        </directions>
+      </ng-map> 
+                      
+                    </form>
+                </div>
+            </div>    
+        </div>
