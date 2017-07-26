@@ -104,7 +104,7 @@ angular
             }
             var wc = "spid = ?";//sp.salesperson
             var wcParams = [ $scope.salesrep.id];
-            BSServiceUtil.queryResultWithCallback("SFSPRetailJPViewRef", "_NOCACHE_", wc, wcParams, undefined, spRetailResult, $scope.retailers.limit,$scope.retailers.offset,isCount);
+            BSServiceUtil.queryResultWithCallback("SFSPRetailJPViewRef", "_NOCACHE_", wc, wcParams, " end_call desc", spRetailResult, $scope.retailers.limit,$scope.retailers.offset,isCount);
         }
         loadReatils("Y");
         $scope.getNextPage = function() {
@@ -387,49 +387,46 @@ angular
         var _operation = 'INSERT';
         var _custId = $stateParams.id;
         $scope.cust = {};
-        //load types
-        
-        //-->END
-    //     var init  = function() {
-    //         var callback = function() {
-    //                 $scope.getLatitudeLongitude();
-    //         }
-    //         DoneMsgbox.show("Info","Alert!","Do you want to capture customer location?",'Y')
-    //                 .then(function(){
-    //                   callback();
-    //                 }, function(){
-    //                 });
-    //         //AlertService.showConfirm("Warning","Do you want to capture customer location?",callback);
-    //     }
-    //     $scope.getLatitudeLongitude = function() {
-    //       $scope.getlatlong = true;
-    //       GeoLocation.getLocation().then(function(position){
-    //                 $scope.cust.latitude = position.lat;
-    //                 $scope.cust.longitude = position.lng;
-    //                 $scope.getlatlong = false;
-    //       }).catch(function(err){
-    //             AlertService.showError("App Error", error.msg);
-    //       });
-    //     }
-    //   // init();
  
          var _customersStore = DoneStoreCache.create("_keyRSFSPRetailJPViewRef","SFSPRetailJPViewRef");
         $scope.x = {};
         var getCustomer = function() {
              _customersStore.setWhereClause("spid = ?");
-            _customersStore.setLimit(300);
-            _customersStore.setOffset(0);
-            _customersStore.setWhereClauseParams([ $scope.salesrep.id]);
-           _customersStore.query().then(function(result) {
+             _customersStore.setLimit(300);
+             _customersStore.setOffset(0);
+             _customersStore.setOrderBy("end_call desc");
+             _customersStore.setWhereClauseParams([ $scope.salesrep.id]);
+             _customersStore.query().then(function(result) {
                  $scope.customers = result.data;
+                  $scope.fcustomers = [];
+                  $scope.wayPoints = [];
+                  var _prevCust;
+                 for(var k = 0 ; k < $scope.customers.length; k++) {
+                     if($scope.customers[k] 
+                        && $scope.customers[k].lat && $scope.customers[k].lng) {
+                            var _cust = $scope.customers[k];
+                            $scope.fcustomers.push(_cust);
+                            if(_cust.end_call) {
+                                _prevCust = _cust;
+                                $scope.wayPoints.push({location: {lat:parseFloat(_cust.lat),lng:parseFloat(_cust.lng)},stopover:true});
+                            }
+                            if(_cust.end_call 
+                                    && !$scope.destination) {
+                                $scope.destination = _cust.addr_line1;
+                            }
+                            if(!_cust.end_call) {
+                                $scope.origin = _prevCust.addr_line1;
+                            }
+                        }
+                 }
             })
             $scope.wayPoints = [{location: {lat:17.518993,lng:78.397236},stopover:true},
                                 {location: {lat:17.517397,lng:78.390155},stopover:true},
                                 {location: {lat:17.521592,lng:78.392472},stopover:true},
                                 {location: {lat:17.518993,lng:78.397236},stopover:true},
                                 {location: {lat:17.518993,lng:78.397236},stopover:true}];
-            $scope.origin = "Pragathi Nagar";
-            $scope.destination = "Nizampet";
+           // $scope.origin = "Pragathi Nagar";
+        //    $scope.destination = "Nizampet";
          }
          getCustomer();
         $scope.gotoCustomers = function() {
