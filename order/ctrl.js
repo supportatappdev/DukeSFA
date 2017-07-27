@@ -20,9 +20,14 @@ function OrderCtrl($scope,Cache,$location,AlertService,$http,BSServiceUtil,$moda
                     $scope.orders.loaded = true;
             }
         }
+        
         var wc = "spid = ?";
+        if($scope.salesrep.isSO === "Y") {
+              wc = "soid = ?";
+        }
         var params = [ $scope.salesrep.id];
-      BSServiceUtil.queryResultWithCallback("SFOrdersViewRef", "_NOCACHE_", wc, params, " creation_date desc ", orderResult,$scope.orders.limit,$scope.orders.offset);
+        
+        BSServiceUtil.queryResultWithCallback("SFOrdersViewRef", "_NOCACHE_", wc, params, " creation_date desc ", orderResult,$scope.orders.limit,$scope.orders.offset);
      }
      loadOrders();
      $scope.getNextPage = function() {
