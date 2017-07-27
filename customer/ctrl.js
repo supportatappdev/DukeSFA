@@ -405,10 +405,11 @@ angular
                      if($scope.customers[k] 
                         && $scope.customers[k].lat && $scope.customers[k].lng) {
                             var _cust = $scope.customers[k];
-                            $scope.fcustomers.push(_cust);
                             if(_cust.end_call) {
                                 _prevCust = _cust;
                                 $scope.wayPoints.push({location: {lat:parseFloat(_cust.lat),lng:parseFloat(_cust.lng)},stopover:true});
+                            } else {
+                                 $scope.fcustomers.push(_cust);
                             }
                             if(_cust.end_call 
                                     && !$scope.destination) {
