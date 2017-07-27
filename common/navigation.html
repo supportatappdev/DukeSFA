@@ -10,13 +10,13 @@
                 </div>
 
             </li>
-            <li ui-sref-active="active">
+            <li ng-if="salesrep.isSO !=='Y'" ui-sref-active="active">
                 <a ui-sref="index.db"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">My Dashboard</span> </a>
             </li>
-            <li ui-sref-active="active">
+            <li ng-if="salesrep.isSO !=='Y'" ui-sref-active="active">
                 <a ui-sref="index.listcustjp"><i class="fa fa-calendar"></i> <span class="nav-label">Journey Plan</span> </a>
             </li>
-            <li ui-sref-active="active">
+            <li ng-if="salesrep.isSO !=='Y'" ui-sref-active="active">
                 <a href="#"><i class="fa fa-users"></i>
                 <span class="nav-label">Customers   <span class="m-r-xs"></span><i class="fa fa-chevron-right"></i></span></a>
                 <ul class="nav nav-second-level collapse" >
@@ -31,7 +31,7 @@
             <li ui-sref-active="active">
                 <a ui-sref="index.listorder"><i class="fa fa-calendar"></i> <span class="nav-label">Orders</span> </a>
             </li>
-             <li ui-sref-active="active">
+             <li ng-if="salesrep.isSO !=='Y'" ui-sref-active="active">
             <!--<a href="#"><i class="fa fa-building-o"></i>-->
             <!--<span class="nav-label">Exe Summary   <span class="m-r-xs"></span><i class="fa fa-chevron-right"></i></span></a>-->
             <ul class="nav nav-second-level collapse">
@@ -45,7 +45,7 @@
             </ul>
          </li>
          
-            <li ui-sref-active="active">
+            <li ng-if="salesrep.isSO !=='Y'" ui-sref-active="active">
                 <a ui-sref="index.eod"><i class="fa fa-truck"></i> <span class="nav-label">EOD </span></a>
             </li>
              <li ui-sref-active="active">
