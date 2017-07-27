@@ -15,13 +15,17 @@
           origin="{{origin}}"
           destination="{{destination}}">
         </directions>
+         <marker ng-repeat="p in fcustomers"
+        position="[{{p.lat}},{{p.lng}}]"
+        data="{{$index}}"
+        title="{{p.cust_name}}"></marker>
       </ng-map>  
-      <ng-map zoom="11" center="[{{fcustomers[0].lat}},{{fcustomers[0].lng}}]">
+     <!-- <ng-map zoom="11" center="[{{fcustomers[0].lat}},{{fcustomers[0].lng}}]">
       <marker ng-repeat="p in fcustomers"
         position="[{{p.lat}},{{p.lng}}]"
         data="{{$index}}"
         title="{{p.cust_name}}"></marker>
-             </ng-map>         
+             </ng-map>  -->        
                     </form>
                 </div>
             </div>    
