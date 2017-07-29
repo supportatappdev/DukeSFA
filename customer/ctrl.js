@@ -220,7 +220,7 @@ angular
                  inputJSON.order_id = orderId;
                 inputJSON.product_id = $scope.order[k].id;
                 inputJSON.item_qty = $scope.order[k].quantity;
-                 inputJSON.item_amount = $scope.order[k].price;
+                 inputJSON.item_amount = $scope.order[k].price * $scope.order[k].quantity;
                  inputJSON.item_scheme_amount = $scope.order[k].ndiscamount;
                  inputJSON.item_tax_amount = parseInt($scope.order[k].sgst)+parseInt($scope.order[k].cgst);
                  var _item = {
@@ -421,11 +421,11 @@ angular
                         }
                  }
             })
-            $scope.wayPoints = [{location: {lat:17.518993,lng:78.397236},stopover:true},
-                                {location: {lat:17.517397,lng:78.390155},stopover:true},
-                                {location: {lat:17.521592,lng:78.392472},stopover:true},
-                                {location: {lat:17.518993,lng:78.397236},stopover:true},
-                                {location: {lat:17.518993,lng:78.397236},stopover:true}];
+            // $scope.wayPoints = [{location: {lat:17.518993,lng:78.397236},stopover:true},
+            //                     {location: {lat:17.517397,lng:78.390155},stopover:true},
+            //                     {location: {lat:17.521592,lng:78.392472},stopover:true},
+            //                     {location: {lat:17.518993,lng:78.397236},stopover:true},
+            //                     {location: {lat:17.518993,lng:78.397236},stopover:true}];
            // $scope.origin = "Pragathi Nagar";
         //    $scope.destination = "Nizampet";
          }
