@@ -9,13 +9,19 @@ function OrderCtrl($scope,Cache,$location,AlertService,$http,BSServiceUtil,$moda
              offset: 0,
              limit: 20
         };
-     var loadOrders = function() {
+     $scope.loadOrders = function(flag) {
          $scope.orders.orderListLoading = true;
+         if(flag == 'refresh') {
+            $scope.orders.orderList  = [];
+            $scope.orders.offset =  0;
+            $scope.orders.limit = 20;
+        } 
          var orderResult = function(result) {
         $scope.orders.orderListLoading = false;
             for(var k = 0; k < result.length; k++) {
                     $scope.orders.orderList.push(result[k]);
             }
+        
             if(result.length <  $scope.orders.limit) {
                     $scope.orders.loaded = true;
             }
@@ -29,13 +35,13 @@ function OrderCtrl($scope,Cache,$location,AlertService,$http,BSServiceUtil,$moda
         
         BSServiceUtil.queryResultWithCallback("SFOrdersViewRef", "_NOCACHE_", wc, params, " creation_date desc ", orderResult,$scope.orders.limit,$scope.orders.offset);
      }
-     loadOrders();
+     $scope.loadOrders();
      $scope.getNextPage = function() {
             if($scope.orders.loaded) {
                 return;
             }
             $scope.orders.offset = ($scope.orders.offset + $scope.orders.limit);
-            loadOrders();
+             $scope.loadOrders();
         }
      $scope.openLineItems = function(row) {
         $scope.inv = row;
@@ -47,7 +53,7 @@ function OrderCtrl($scope,Cache,$location,AlertService,$http,BSServiceUtil,$moda
         });
     }
 }
-function lineItemCntrl($scope,BSServiceUtil,$modalInstance) {
+function lineItemCntrl(BSService,AlertService,Util,$scope,BSServiceUtil,$modalInstance) {
     var invoiceItem = function(c,params) {
        $scope.loadDetData  = true;
         var invoiceListItemResult = function(result) {
@@ -61,12 +67,40 @@ function lineItemCntrl($scope,BSServiceUtil,$modalInstance) {
     var wcParams = [$scope.inv.order_no];
     invoiceItem(wc,wcParams);
     $scope.inv1 = $scope.inv;
+    
     $scope.close = function(){
         $modalInstance.close();
+    }
+    $scope.x = {};
+    $scope.x.deliveryDate = $scope.inv.delivered_date;
+    $scope.x.adeliveryDate = $scope.inv.delivered_date;
+    $scope.save = function() {
+           var inputJSON = {};
+                inputJSON.delivered_date = Util.convertDBDate($scope.x.deliveryDate);
+                inputJSON.custUpdate = "Y";
+                inputJSON.id = $scope.inv.order_id;
+                 var params = {
+                'ds': 'FISFOrderRef',
+                'operation': 'UPDATE',
+                'data': inputJSON
+            };
+            BSService.save({
+                'method': 'update'
+            }, params, function(result) {
+                if (result.status === "E") {
+                    AlertService.showError("Validation Error",result.errorMsg);
+                }  else {
+                    
+                    AlertService.showInfo("Success","Order updated successfully");
+                    $scope.close();
+                     $scope.loadOrders('refresh');
+                    
+                }
+            });   
     }
 }
 
 angular
     .module('mymobile3')
     .controller('OrderCtrl', ['$scope','Cache','$location','AlertService','$http','BSServiceUtil','$modal',OrderCtrl])
-    .controller('lineItemCntrl',['$scope','BSServiceUtil', lineItemCntrl]);
+    .controller('lineItemCntrl',['BSService','AlertService','Util','$scope','BSServiceUtil', lineItemCntrl]);
