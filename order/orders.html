@@ -54,12 +54,13 @@
                      <!--   </a>-->
                         <h3><a ng-click="openLineItems(o)">Order No: {{o.order_no}}</a></h3>
                         <a  class="search-link">{{o.cust_name}} [{{o.cust_code}}]
-                            <br>Executive Code: {{o.executive_code}}
+                            <span ng-if="salesrep.isSO == 'Y'"><br>Executive Code: {{o.executive_code}}</span>
                             <small class="pull-right text-navy">Invoice Amount: {{o.order_amount}}</small>
                         </a>
                         <p>
                          {{o.addr_line1}}
                         Date: {{o.creation_date | date:'dd/MM/yyyy'}}
+                        <span ng-if="salesrep.isSO == 'Y' && o.delivered_date"><br>Delivery Date: {{o.delivered_date | date:'dd/MM/yyyy'}}</span>
                          </p>
                     </div>
                     <div class="hr-line-dashed" style="margin:5px 0"></div>
