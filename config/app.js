@@ -7,6 +7,7 @@
         'oc.lazyLoad',                  // ocLazyLoad
         'ui.bootstrap',                 // Ui Bootstrap
         'ngResource',
+        'datePicker',
          'cgNotify',
           'oitozero.ngSweetAlert',
           'infinite-scroll',
