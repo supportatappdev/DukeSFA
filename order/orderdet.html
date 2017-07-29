@@ -31,8 +31,18 @@
             </tr>
         </tbody>
         </table>
+         <form class="col-lg-12 form-horizontal " ng-if="salesrep.isSO == 'Y'">
+        <div class="form-group" >
+             <label class="control-label ">Delivery Date</label>
+            <div class="input-group date">
+               <input id="from_date" ng-model="x.deliveryDate" type="datetime" class="form-control" date-time="" min-view="date" auto-close="true" format="dd/MM/yyyy">
+               <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+        </div>
+        </form>
         <button ng-hide="hideCancel" type="button" class="btn btn-white pull-right" ng-click="close()"><i class="fa fa-times"></i> Close</button> 
-            
+        <button ng-show="salesrep.isSO == 'Y' && x.adeliveryDate == undefined" type="button" class="btn btn-primary pull-right m-r-xs" ng-click="save()"><i class="fa fa-save"></i> Save</button> 
+         
         </div>
 
 </div>                 
