@@ -60,6 +60,23 @@ angular
         
       $scope.user = Cache.loggedInUser()
         $scope.showLogin = false;
+         var _storeSP = DoneStoreCache.create("_keySPREFDet","SFGetSPDeailsRef");
+         var _visitStore = DoneStoreCache.create("_keyVisitDet","FISfCustomerVisitRef");
+         var loadDetails = function() {
+         _storeSP.setWhereClause("user_id = ?");
+         _storeSP.setWhereClauseParams([Cache.loggedInUser().uId]);
+         _storeSP.query().then(function(item){
+             $scope.salesrepdetials = item.data[0];
+             _visitStore.setWhereClause("executive_id = ? and date_format(creation_Date,'%d %m %y') = date_format(now(),'%d %m %y')");
+             _visitStore.setWhereClauseParams([$scope.salesrepdetials.id]);
+             _visitStore.query().then(function(result){
+                 if(result.data.length > 0) {
+                    $scope.params.isStrartDay = true;
+                 }
+             });
+              $location.path("/index/db");
+         });
+         }
         var _store = DoneStoreCache.create("_keySPREF","SFSalesPersonRef");
          _store.setWhereClause("user_id = ?");
          _store.setWhereClauseParams([Cache.loggedInUser().uId]);
@@ -69,16 +86,11 @@ angular
                     $scope.salesrep.isSO = "Y";
                     $location.path("index/listorder");
              } else {
-              $location.path("/index/db");
+                loadDetails(); 
              }
          });
-         var _storeSP = DoneStoreCache.create("_keySPREFDet","SFGetSPDeailsRef");
-         _storeSP.setWhereClause("user_id = ?");
-         _storeSP.setWhereClauseParams([Cache.loggedInUser().uId]);
-         _storeSP.query().then(function(item){
-             $scope.salesrepdetials = item.data[0];
-         });
+        
+         
     }
    
-       
-})
+    });
