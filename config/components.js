@@ -471,7 +471,10 @@ angular.module("doneComponentsSet", [])
             var isCountQuery = 'N';
             var offset = 0;
             var limit = 20;
+            var selectClause;
+            var isExport;
             var orderBy;
+            var groupBy;
             var beforeQueryCallback;
             this.setOffset = function(_offset) {
                  offset = _offset;
@@ -484,6 +487,18 @@ angular.module("doneComponentsSet", [])
             }
             this.getLimit = function() {
                 return limit ;
+            }
+             this.setGroupBy = function(_groupBy) {
+               groupBy = _groupBy;
+            }
+            this.getGroupBy = function() {
+                return groupBy;
+            }
+            this.setSelectClause = function(_selectClause) {
+               selectClause = _selectClause;
+            }
+            this.getSelectClause = function() {
+                return selectClause ;
             }
             this.setWhereClause = function(whereClause){
                wc = whereClause;
@@ -513,7 +528,7 @@ angular.module("doneComponentsSet", [])
                     offset += limit;
                      deferred.resolve(_item);
                 }
-               BSServiceUtil.queryResultWithCallback(customObject, "_NOCACHE_", wc, wcParams, orderBy, resultCallback,limit,offset,isCountQuery);
+               BSServiceUtil.queryResultWithCallback(customObject, "_NOCACHE_", wc, wcParams, orderBy, resultCallback,limit,offset,isCountQuery,isExport,selectClause,groupBy); //offset, isCount, isExport, selectClause
                return deferred.promise;
             }
             
@@ -582,12 +597,11 @@ angular.module("doneComponentsSet", [])
         }
     }    
 }) 
- .service('DoneStoreCache',function(AlertService,DoneStore){
+ .service('DoneStoreCache',function(DoneStore){
      this.map = {};
      this.create = function(key,customObject){
          if(this.map[key]) {
             return this.map[key];
-            //AlertService.showInfo("Info","Duplicate store id for ["+key+":"+customObject+"]");
          } else {
            var _store =  DoneStore.get(key,customObject);
            this.map[key] = _store; 
