@@ -6,7 +6,7 @@
                 <div class="ibox-content">
                     <form class="form-horizontal">
                       
-      <ng-map zoom="14" id="my-map"  style="height:90%" on-click="logLatLng()" >
+      <!--<ng-map zoom="14" id="my-map"  style="height:90%" on-click="logLatLng()" >
         <directions 
           draggable="true"
           panel="directions-panel"
@@ -19,13 +19,25 @@
         position="[{{p.lat}},{{p.lng}}]"
         data="{{$index}}"
         title="{{p.cust_name}}"></marker>
-      </ng-map>  
-     <!-- <ng-map zoom="11" center="[{{fcustomers[0].lat}},{{fcustomers[0].lng}}]">
+      </ng-map>  -->
+    <ng-map zoom="11" center="[{{fcustomers[0].lat}},{{fcustomers[0].lng}}]">
+         <shape name="polyline" id="foo"
+      path="{{wayPoints}}"
+      geodesic="true"
+      stroke-color="#1a1aba"
+      stroke-opacity="1.0"
+      stroke-weight="2">
+    </shape>
       <marker ng-repeat="p in fcustomers"
         position="[{{p.lat}},{{p.lng}}]"
         data="{{$index}}"
         title="{{p.cust_name}}"></marker>
-             </ng-map>  -->        
+      <custom-marker id="x-{{$index}}" ng-repeat="p in fcustomers"
+          position="{{p.addr_line1}}">
+          <div>  </div>
+           <div>  </div>
+        </custom-marker>
+             </ng-map>        
                     </form>
                 </div>
             </div>    
