@@ -1,0 +1,49 @@
+<!-- add customers -->
+
+
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller='NewCallCtrl'>
+    <div class="row">
+                     <div class="ibox float-e-margins">
+                        <form class="form-horizontal">
+                                        <div class="form-group"><label class="col-lg-2 control-label">Type</label>
+                                         <div class="col-lg-10">
+                                            <select class="form-control"  ng-model="po.selproducttype"   ng-change="loadProducts(po)"
+                                            ng-options="p.id as p.prdtype_name for p in producttypes">
+                                            </select> 
+                                        </div>
+                                        </div>
+                                        </form>
+             </div>
+                     <table class="table  table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th width="55%">Product</th>
+                                        <th width="15%">UoM</th>
+                                         <th width="30%">Qty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat='p in po.products'>
+                                        <td>{{p.prd_name}}</td>
+                                          <td>{{p.uom}}</td>
+                                         <td> 
+                                         <div class="col-lg-4">
+                                             <input type="text" class="form-control" ng-model="po.quantity" required ng-change="addNew($event,p.id)"/>         
+                                        </div>
+                                        </td>
+                                         </tr>
+                                </tbody>
+                            </table>
+                     <table  class="table  table-bordered">
+                         <tr><td colspan="2"># Items: <a href="#">{{noofitems}}</a></td>
+                         <td >Total: {{total}}</td>
+                             
+                         </tr>
+                     </table>        
+                     <div class="m-b-xl">
+                                 <input type="button" class="btn btn-primary addnew pull-right m-r-xs" value="Submit" ng-click="submitOrder()">
+                                <input type="button" class="btn btn-primary addnew pull-right m-r-xs m-l-xs" value="Add New" ng-click="addNew($event)">
+                                <input ng-hide="!products.length" type="button" class="btn btn-danger pull-right m-l-xs" ng-click="remove()" value="Remove">
+                            </div>
+        </div>
+    </div>
