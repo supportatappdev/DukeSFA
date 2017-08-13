@@ -104,7 +104,9 @@ angular
             }
             var wc = "spid = ?";//sp.salesperson
             var wcParams = [ $scope.salesrep.id];
-            BSServiceUtil.queryResultWithCallback("SFSPRetailJPViewRef", "_NOCACHE_", wc, wcParams, " end_call desc", spRetailResult, $scope.retailers.limit,$scope.retailers.offset,isCount);
+            BSServiceUtil.queryResultWithCallback("SFSPRetailJPViewRef", "_NOCACHE_", wc, wcParams, undefined, spRetailResult, $scope.retailers.limit,$scope.retailers.offset,isCount);
+           // BSServiceUtil.queryResultWithCallback("SFSPRetailJPViewRef", "_NOCACHE_", wc, wcParams, " end_call desc", spRetailResult, $scope.retailers.limit,$scope.retailers.offset,isCount);
+
         }
         loadReatils("Y");
         $scope.getNextPage = function() {
@@ -119,7 +121,7 @@ angular
                 return;
             }
             var callback = function() {
-                $location.path("/index/newcall/"+item.cid);
+                $location.path("/index/newcall1/"+item.cid);
             }
             if(!$scope.params.isStrartDay) {
                 DoneMsgbox.show("Warning","Warning!","Your day haven't started yet. Do you wish to start yoru day?",'Y')
@@ -293,7 +295,7 @@ angular
         loadReatils();
         
        $scope.x = {};
-       $scope.loadProducts = function(po) {
+        $scope.loadProducts = function(po) {
             _productsStore.setWhereClause("prdtype_id = ?");
             _productsStore.setLimit(300);
             _productsStore.setOffset(0);
@@ -302,8 +304,8 @@ angular
                 po.products = result.data;
             });
        }
-         var _productScheme = DoneStoreCache.create("_keySFSchemeViewRef","SFSchemeViewRef");
-         var loadSchemeDetails = function(po) {
+        var _productScheme = DoneStoreCache.create("_keySFSchemeViewRef","SFSchemeViewRef");
+        var loadSchemeDetails = function(po) {
             _productScheme.setWhereClause("prd_code = ?");
             _productScheme.setLimit(1);
             _productScheme.setOffset(0);
@@ -312,7 +314,7 @@ angular
                 po.scheme = result.data[0].scheme_pcent;
             });
          } 
-         $scope.setProdDetails = function(selproduct,po) {
+        $scope.setProdDetails = function(selproduct,po) {
                 po.price = selproduct.pcs_price;
                 po.prodname = selproduct.prd_name;
                 po.id = selproduct.id;
@@ -351,6 +353,10 @@ angular
         $scope.order = [];
         $scope.totalAmount = 0;
         $scope.totalAmountNumber = 0;
+        $scope.addNew = function($event,pid){
+            $event.preventDefault();
+            $scope.order.push( {selected:false,selproducttype:'',prodname:'',quantity:'',price:'',grams:'',no_of_packs:'',loadability:''});
+        };
         $scope.addNew = function($event){
             $event.preventDefault();
             $scope.order.push( {selected:false,selproducttype:'',prodname:'',quantity:'',price:'',grams:'',no_of_packs:'',loadability:''});
@@ -382,7 +388,7 @@ angular
 });
 angular
     .module('mymobile3')
-    .controller('RouteCtrl', function AddCustCtrl(DoneMsgbox,$timeout,DoneStoreCache,GeoLocation,Util,BSServiceUtil,$state,$stateParams,$scope,Cache,$location,AlertService,$http,BSService) {
+    .controller('RouteCtrl', function RouteCtrl(DoneMsgbox,$timeout,DoneStoreCache,GeoLocation,Util,BSServiceUtil,$state,$stateParams,$scope,Cache,$location,AlertService,$http,BSService) {
         $("body").removeClass("mini-navbar");
         var _operation = 'INSERT';
         var _custId = $stateParams.id;
@@ -394,40 +400,27 @@ angular
              _customersStore.setWhereClause("spid = ?");
              _customersStore.setLimit(300);
              _customersStore.setOffset(0);
-             _customersStore.setOrderBy("end_call desc");
+            //_customersStore.setOrderBy("end_call desc");
              _customersStore.setWhereClauseParams([ $scope.salesrep.id]);
              _customersStore.query().then(function(result) {
                  $scope.customers = result.data;
                   $scope.fcustomers = [];
-                  $scope.wayPoints = [];
-                  var _prevCust;
-                 for(var k = 0 ; k < $scope.customers.length; k++) {
-                     if($scope.customers[k] 
-                        && $scope.customers[k].lat && $scope.customers[k].lng) {
-                            var _cust = $scope.customers[k];
-                            if(_cust.end_call) {
-                                _prevCust = _cust;
-                                $scope.wayPoints.push({location: {lat:parseFloat(_cust.lat),lng:parseFloat(_cust.lng)},stopover:true});
-                            } else {
-                                 $scope.fcustomers.push(_cust);
+                    for(var k = 0 ; k < $scope.customers.length; k++) {
+                         if($scope.customers[k].end_call) {
+                                    $scope.visitedcust = $scope.visitedcust + 1;
+                         }
+                         if($scope.customers[k] 
+                            && $scope.customers[k].lat && $scope.customers[k].lng) {
+                                var _cust = $scope.customers[k];
+                                     $scope.fcustomers.push(_cust);
                             }
-                            if(_cust.end_call 
-                                    && !$scope.destination) {
-                                $scope.destination = _cust.addr_line1;
-                            }
-                            if(!_cust.end_call) {
-                                $scope.origin = _prevCust.addr_line1;
-                            }
-                        }
-                 }
+                     }
+                     $scope.wayPoints = [];
+                     for(var l = 0 ; l < $scope.fcustomers.length; l++) {
+                                     var _points = [parseFloat($scope.fcustomers[l].lat),parseFloat($scope.fcustomers[l].lng)];
+                                     $scope.wayPoints.push(_points);
+                     }
             })
-            // $scope.wayPoints = [{location: {lat:17.518993,lng:78.397236},stopover:true},
-            //                     {location: {lat:17.517397,lng:78.390155},stopover:true},
-            //                     {location: {lat:17.521592,lng:78.392472},stopover:true},
-            //                     {location: {lat:17.518993,lng:78.397236},stopover:true},
-            //                     {location: {lat:17.518993,lng:78.397236},stopover:true}];
-           // $scope.origin = "Pragathi Nagar";
-        //    $scope.destination = "Nizampet";
          }
          getCustomer();
         $scope.gotoCustomers = function() {
@@ -454,7 +447,6 @@ angular
                        callback();
                     }, function(){
                     });
-            //AlertService.showConfirm("Warning","Do you want to capture customer location?",callback);
         }
         $scope.getLatitudeLongitude = function() {
            $scope.getlatlong = true;
@@ -462,11 +454,11 @@ angular
                     $scope.cust.latitude = position.lat;
                     $scope.cust.longitude = position.lng;
                     $scope.getlatlong = false;
+                            
            }).catch(function(err){
                 AlertService.showError("App Error", error.msg);
            });
         }
-        init();
         // var getLatLong = function(callback) {
         //     // If adress is not supplied, use default value 'Ferrol, Galicia, Spain'
         //     if(!$scope.cust.addr_line1) {
@@ -506,9 +498,10 @@ angular
                      $scope.tradetype = $scope.cust.trade_type_code;
                      $scope.jpDay = $scope.cust.jp_id+"";
                      $scope.fortnight = $scope.cust.visit_type+"";
-                 $scope.salesrepdetials.dstid = $scope.cust.dstb_id;
-                 $scope.salesrepdetials.tid = $scope.cust.terri_id;
-                 $scope.salesrepdetials.rid = $scope.cust.route_id;
+                     $scope.salesrepdetials.dstid = $scope.cust.dstb_id;
+                     $scope.salesrepdetials.tid = $scope.cust.terri_id;
+                     $scope.salesrepdetials.rid = $scope.cust.route_id;
+                    // if($scope.cust.lat && $scopecust.)
             }),1000);
          }
          
@@ -521,6 +514,7 @@ angular
              $scope.btnTxt = "Update Customer";
         } else {
             $scope.btnTxt = "Add Customer";
+             init();
         }
         $scope.addCustomer = function() {
         $scope.addcspinner = true;
