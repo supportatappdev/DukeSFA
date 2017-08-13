@@ -12,6 +12,7 @@
           'oitozero.ngSweetAlert',
           'infinite-scroll',
            'ngMap',
+            'doneServices',
            'doneComponentsSet'
     ])
 })();  
