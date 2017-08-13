@@ -34,8 +34,8 @@ function custconfig($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
             data: { pageTitle: 'Route Map' }
         })
         .state('index.newcall', {
-            url: "/newcall/:id",
-            templateUrl: "customer/newcall.html",
+            url: "/newcall1/:id",
+            templateUrl: "customer/newcall1.html",
             data: { pageTitle: 'New Order' }
         })
 }
