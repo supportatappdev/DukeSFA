@@ -1,17 +1,17 @@
 <!-- add customers -->
 <div class="wrapper wrapper-content animated fadeInRight" ng-controller='NewCallCtrl1'>
    <div class="row">
-      <div class="ibox-content m-b-md" >
+      <div class="ibox-content  border-bottom m-b-md" >
          <div class="form-group">
             <label class="col-lg-2 control-label">Type</label>
-            <div class="col-lg-10" >
+            <div class="col-lg-10" style="margin-top: -6px;">
                <select class="form-control"  ng-model="po.selproducttype"   ng-change="loadProducts(po)"
                   ng-options="p.id as p.prdtype_name for p in producttypes">
                </select> 
             </div>
          </div>
       </div>
-      <div style="overflow: auto;max-height: 300px;">
+      <div style="overflow: auto;max-height: 400px;">
         <table class="table  table-bordered">
          <thead>
             <tr>
@@ -40,7 +40,7 @@
             <label class="col-lg-4 control-label">
               Total: {{totalAmount}}
             </label>
-            <div class="col-lg-4">
+            <div class="col-lg-4" style="margin-top: -6px;">
                 <input type="button" class="btn btn-primary addnew pull-right m-r-xs" value="Submit" ng-click="submitOrder()">
             </div>
          </div>
