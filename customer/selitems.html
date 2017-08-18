@@ -1,0 +1,36 @@
+<div class="inmodal">
+<div class="panel panel-default">
+                                <div class="panel-heading">
+                                   <strong><i class="fa fa-list"></i> Selected Items</strong>
+                                </div>
+                                <div class="panel-body">
+                                  <div style="overflow: auto;max-height: 400px;">
+                                <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>SNo</th>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="prod in po.products" ng-if="prod.quantity > 0" ng-init="">
+               
+                <td>{{prod.idx + 1 }}</td>
+                 <td>
+                {{prod.prd_name}}<br>
+                Price /  {{prod.uom}} : {{prod.pcs_price}} 
+                </td>
+                <td>{{prod.quantity}}</td>
+                <td>{{prod.pcs_price * prod.quantity | number:2}}</td>
+            </tr>
+        </tbody>
+        </table>
+                                </div>
+        <button type="button" class="btn btn-white pull-right" ng-click="close()"><i class="fa fa-times"></i> Close</button> 
+         
+        </div>
+
+</div>                 
+</div>
