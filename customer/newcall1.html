@@ -1,7 +1,7 @@
 <!-- add customers -->
 <div class="wrapper wrapper-content animated fadeInRight" ng-controller='NewCallCtrl1'>
    <div class="row">
-      <div class="m-b-md" >
+      <div class="ibox-content m-b-md" >
          <div class="form-group">
             <label class="col-lg-2 control-label">Type</label>
             <div class="col-lg-10" >
@@ -33,13 +33,13 @@
          </tbody>
       </table>
       </div>
-      <div class="" >
+      <div class="ibox-content" >
          <div class="form-group">
             <label class="col-lg-4 control-label">
             <span ># Items: <a href="#">{{noofitems}}</a></span></label>
-            <div class="col-lg-4 control-label">
+            <label class="col-lg-4 control-label">
               Total: {{totalAmount}}
-            </div>
+            </label>
             <div class="col-lg-4">
                 <input type="button" class="btn btn-primary addnew pull-right m-r-xs" value="Submit" ng-click="submitOrder()">
             </div>
