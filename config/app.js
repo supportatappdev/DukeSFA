@@ -17,12 +17,3 @@
     ])
 })();  
 
-
-function getBaseURL() {
-	   return location.protocol + "//" + location.hostname + 
-	      (location.port && ":" + location.port) ;
-}; 
-function getAppName(p) {
-   return "/";
-}
-var _appUrl = "http://202.53.13.76:9192";//getBaseURL()+getAppName(window.location.pathname);
