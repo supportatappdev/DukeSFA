@@ -25,6 +25,7 @@ angular
 		  $location.path(getAppName(window.location.pathname));
 	  });
      }
+     AlertService.showError("Setup Error","Step 2");
     $scope.login  = function() {
             $scope.signin  = true;
             var data = $.param({
@@ -55,7 +56,9 @@ angular
                     "</li><li>config: " + config +"</li>";
             });
         }
+        AlertService.showError("Setup Error","Step 3");
     if(!Cache.loggedInUser()) {  
+        AlertService.showError("Setup Error","Step 4");
        $scope.showLogin = true;
        return;
     } else {
