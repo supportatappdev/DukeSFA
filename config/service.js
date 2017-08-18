@@ -21,7 +21,7 @@ var importUrl = _appUrl + "/import";
 var exportUrl = _appUrl + "/export/?isTemplate=N";
 var attachUrl = _appUrl + "/aservice";
 var infoTemplate =  'common/notify.html';
-
+var _debug = true;
 angular.module('doneServices',[])
 .service('Util', function($filter) {
     this.trim = function(value) {
@@ -460,7 +460,7 @@ angular.module('doneServices',[])
         }
     }
 })
-.service('Cache', function() {
+.service('Cache', function(AlertService) {
     var map;
     this.getRawValue = function(key) {
         return localStorage.getItem(key);
@@ -491,6 +491,10 @@ angular.module('doneServices',[])
         localStorage.setItem('Cache', angular.toJson(map));
     };
     this.loggedInUser = function() {
+        if(_debug) {
+            AlertService.showError('In LoggedInUser',localStorage.$_u);
+             AlertService.showError('In LoggedInUserw',JSON.parse(angular.fromJson(localStorage.$_u)));
+        }
         return JSON.parse(angular.fromJson(localStorage.$_u));
     };
     this.loggedInUserAppId = function() {
