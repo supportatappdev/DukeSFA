@@ -56,7 +56,7 @@ angular
                     "</li><li>config: " + config +"</li>";
             });
         }
-        AlertService.showError("Setup Error","Step 3");
+        AlertService.showError("Setup Error",Cache.loggedInUser());
     if(!Cache.loggedInUser()) {  
         AlertService.showError("Setup Error","Step 4");
        $scope.showLogin = true;
@@ -98,4 +98,4 @@ angular
          
     }
    
-    });
+});
