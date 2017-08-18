@@ -388,7 +388,7 @@ angular
 });
 angular
     .module('mymobile3')
-    .controller('NewCallCtrl1', function CustCtrl(DoneStoreCache,BSService,Util,$state,$stateParams,$filter,$scope,Cache,$location,AlertService,$http,BSServiceUtil,$location) {
+    .controller('NewCallCtrl1', function CustCtrl($modal,DoneStoreCache,BSService,Util,$state,$stateParams,$filter,$scope,Cache,$location,AlertService,$http,BSServiceUtil,$location) {
        $scope._currDate = new Date();
        $scope.params.isStrartDay = true;
        var _productsStore = DoneStoreCache.create("_keySFProductViewRef2","SFProductViewRef");
@@ -586,12 +586,15 @@ angular
                 }
                 var _totAmount = 0;
                 $scope.noofitems = 0 ;
+                var idx = 0;
                 angular.forEach($scope.po.products, function(po1){
                      if(po1.quantity) {
                         _totAmount = Number(_totAmount) + Number(parseFloat(po1.pcs_price*po1.quantity));
                         $scope.noofitems += Number(parseFloat(po1.quantity));
                         po1.msgst = $filter('number')((po.pcs_price * po.sgst)/100,2);
                         po1.mcgst = $filter('number')((po.pcs_price * po.cgst)/100,2);
+                        po1.idx = idx;
+                        idx++;
                      }
                 }); 
                 $scope.totalAmount = $filter('number')(_totAmount,2);
@@ -632,9 +635,20 @@ angular
                 mps.selected = $scope.selectedAll;
             });
         };   
-        
+        $scope.openLineItems = function() {
+        var modalInstance = $modal.open({
+            templateUrl: 'customer/selitems.html',
+            size: "sm",
+            scope: $scope,
+            controller: SellineItemCntrl
+        });
+    }
 });
-
+var SellineItemCntrl = function($scope,$modalInstance) {
+    $scope.close = function(){
+        $modalInstance.close();
+    }
+}
 angular
     .module('mymobile3')
     .controller('RouteCtrl', function RouteCtrl(DoneMsgbox,$timeout,DoneStoreCache,GeoLocation,Util,BSServiceUtil,$state,$stateParams,$scope,Cache,$location,AlertService,$http,BSService) {
