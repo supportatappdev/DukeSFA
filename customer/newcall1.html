@@ -1,18 +1,18 @@
 <!-- add customers -->
 <div class="wrapper wrapper-content animated fadeInRight" ng-controller='NewCallCtrl1'>
    <div class="row">
-      <div class="ibox-content m-b-md border-bottom" >
+      <div class="m-b-md border-bottom" >
          <div class="form-group">
             <label class="col-lg-2 control-label">Type</label>
-            <div class="col-lg-10" style="margin-top:-7px">
+            <div class="col-lg-10" >
                <select class="form-control"  ng-model="po.selproducttype"   ng-change="loadProducts(po)"
                   ng-options="p.id as p.prdtype_name for p in producttypes">
                </select> 
             </div>
          </div>
       </div>
-       <div class="ibox-content m-b-md border-bottom" >
-      <table class="table  table-bordered">
+      <div style="overflow: auto;max-height: 300px;">
+        <table class="table  table-bordered">
          <thead>
             <tr>
                <th width="55%">Product</th>
@@ -33,11 +33,11 @@
          </tbody>
       </table>
       </div>
-      <div class="ibox-content m-b-md border-bottom" style="overflow: auto;max-height: 300px;">
+      <div class="m-b-md border-bottom" >
          <div class="form-group">
-            <label class="col-lg-8 control-label">
+            <label class="col-lg-4 control-label">
             <span class="pull-right"># Items: <a href="#">{{noofitems}}</a></span></label>
-            <div class="col-lg-4 text-center control-label">
+            <div class="col-lg-8 control-label">
               Total: {{totalAmount}}
             </div>
          </div>
