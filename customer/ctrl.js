@@ -388,6 +388,255 @@ angular
 });
 angular
     .module('mymobile3')
+    .controller('NewCallCtrl1', function CustCtrl(DoneStoreCache,BSService,Util,$state,$stateParams,$filter,$scope,Cache,$location,AlertService,$http,BSServiceUtil,$location) {
+       $scope._currDate = new Date();
+       $scope.params.isStrartDay = true;
+       var _productsStore = DoneStoreCache.create("_keySFProductViewRef2","SFProductViewRef");
+       var _productTypesStore = DoneStoreCache.create("_keySFProductTypeRef2","SFProductTypeRef");
+       
+       $scope.x = {};
+       $scope.loadProducts = function(po) {
+            _productsStore.setWhereClause("prdtype_id = ?");
+            _productsStore.setLimit(300);
+            _productsStore.setOffset(0);
+            _productsStore.setWhereClauseParams([po.selproducttype]);
+            _productsStore.query().then(function(result) {
+                po.products = result.data;
+            });
+       }
+       var loadProductTypes = function() {
+            _productTypesStore.setLimit(300);
+            _productTypesStore.setOffset(0);
+            _productTypesStore.query().then(function(result) {
+                $scope.producttypes = result.data;
+            });
+       }
+       loadProductTypes();
+       //loadProducts();
+       var startCall = function() {
+            var inputJSON = {};
+                inputJSON.customer_id = $stateParams.id;
+                inputJSON.executive_id = $scope.salesrep.id;
+                inputJSON.call_start_time = Util.convertDBDate(new Date());
+                 inputJSON.isGenIds = "Y";
+                 var params = {
+                'ds': 'FISfCustomerVisitRef',
+                'operation': 'INSERT',
+                'data': inputJSON
+            };
+            BSService.save({
+                'method': 'update'
+            }, params, function(result) {
+                if (result.status === "E") {
+                    AlertService.showError("Validation Error",result.errorMsg);
+                }  else {
+                    $scope.callid = result.ids[0];
+                }
+            });
+        }
+       startCall();
+       $scope.submitOrder = function() {
+           var inputJSON = {};
+                inputJSON.customer_id = $stateParams.id;
+                inputJSON.order_no = "SO-05062017-"+$scope.callid;
+                inputJSON.order_amount = $scope.totalAmountNumber;
+                inputJSON.item_count = $scope.noofitems;
+                var _taxAmount = 0;
+                 for(var k = 0; k < $scope.po.products.length; k++) {
+                     if($scope.po.products[k].quantity) {
+                         _taxAmount =  Number(_taxAmount) + Number(parseInt($scope.po.products[k].msgst)+parseInt($scope.po.products[k].mcgst));
+                     }
+                 }
+                inputJSON.order_tax_amount = _taxAmount;
+                 inputJSON.isGenIds = "Y";
+                 var params = {
+                'ds': 'FISFOrderRef',
+                'operation': 'INSERT',
+                'data': inputJSON
+            };
+            BSService.save({
+                'method': 'update'
+            }, params, function(result) {
+                if (result.status === "E") {
+                    AlertService.showError("Validation Error",result.errorMsg);
+                }  else {
+                    var orderId = result.ids[0];
+                    submitOrderDetails(orderId,inputJSON.order_no);
+                }
+            });
+       }
+       var submitOrderDetails = function(orderId,orderNo) {
+		  var params = [];
+		   for(var k = 0; k < $scope.po.products.length; k++) {
+		       if(!$scope.po.products[k].quantity) {
+		         continue;
+		       }
+		       var inputJSON = {};
+		       inputJSON.customer_id = $stateParams.id;
+                inputJSON.order_no = orderNo;
+                 inputJSON.order_id = orderId;
+                inputJSON.product_id = $scope.po.products[k].id;
+                inputJSON.item_qty = $scope.po.products[k].quantity;
+                 inputJSON.item_amount = $scope.po.products[k].pcs_price * $scope.po.products[k].quantity;
+                 inputJSON.item_scheme_amount = 0;//;$scope.po.products[k].ndiscamount;
+                 inputJSON.item_tax_amount = parseInt($scope.po.products[k].msgst)+parseInt($scope.po.products[k].mcgst);
+                 var _item = {
+                'ds': 'SFOrderDetRef',
+                'operation': 'INSERT',
+                'data': inputJSON
+                };
+                params.push(_item);
+		   }
+                
+            BSService.save({
+                'method': 'update'
+            }, {"list":params} , function(result) {
+                if (result.status === "E") {
+                    AlertService.showError("Validation Error",result.errorMsg);
+                }  else {
+                    endCall(orderId);
+                }
+            });            
+       }
+       
+       var endCall  = function(orderId) {
+           var inputJSON = {};
+                inputJSON.id = $scope.callid;
+                inputJSON.call_end_time = Util.convertDBDate(new Date());
+                inputJSON.order_id = orderId;
+                inputJSON.is_teleorder = 0;
+                inputJSON.is_productive = 1;
+                inputJSON.custUpdate = "Y";
+                 var params = {
+                'ds': 'FISfCustomerVisitRef',
+                'operation': 'UPDATE',
+                'data': inputJSON
+            };
+            BSService.save({
+                'method': 'update'
+            }, params, function(result) {
+                if (result.status === "E") {
+                    AlertService.showError("Validation Error",result.errorMsg);
+                }  else {
+                    gotoJPCustomers();
+                }
+            });
+       }
+       var gotoJPCustomers = function() {
+           $location.path("/index/listcustjp")
+       }
+        $("body").removeClass("mini-navbar");
+        $scope.retailers = {
+             spRetailList:[],
+             retailListLoading: false,
+             offset: 0,
+             limit: 20
+        };
+        var loadReatils  = function() {
+              $scope.retailers.retailListLoading = true;
+            var spRetailResult = function(result) {
+                $scope.retailers.retailListLoading = false;
+                for(var k = 0; k < result.length; k++) {
+                    $scope.retailers.spRetailList.push(result[k]);
+                }
+                if(result.length <  $scope.retailers.limit) {
+                    $scope.retailers.loaded = true;
+                }
+            }
+            var wc = "spid = ?";//sp.salesperson
+            var wcParams = [ $scope.salesrep.id];
+            BSServiceUtil.queryResultWithCallback("SFSPRetailJPViewRef", "_NOCACHE_", wc, wcParams, undefined, spRetailResult, $scope.retailers.limit,$scope.retailers.offset);
+        }
+        loadReatils();
+        
+       $scope.x = {};
+        $scope.loadProducts = function(po) {
+            _productsStore.setWhereClause("prdtype_id = ?");
+            _productsStore.setLimit(300);
+            _productsStore.setOffset(0);
+            _productsStore.setWhereClauseParams([po.selproducttype]);
+            _productsStore.query().then(function(result) {
+                po.products = result.data;
+            });
+       }
+        var _productScheme = DoneStoreCache.create("_keySFSchemeViewRef","SFSchemeViewRef");
+        var loadSchemeDetails = function(po) {
+            _productScheme.setWhereClause("prd_code = ?");
+            _productScheme.setLimit(1);
+            _productScheme.setOffset(0);
+            _productScheme.setWhereClauseParams([po.selproduct.prd_code]);
+            _productScheme.query().then(function(result) {
+                po.scheme = result.data[0].scheme_pcent;
+            });
+         } 
+        $scope.setProdDetails = function(selproduct,po) {
+                po.price = selproduct.pcs_price;
+                po.prodname = selproduct.prd_name;
+                po.id = selproduct.id;
+                po.uom = selproduct.uom;
+                po._sgst = selproduct.sgst;
+                po._cgst = selproduct.cgst;
+                loadSchemeDetails(po);
+            }
+            
+        $scope.setTotal = function(po) {
+                 if(po.scheme) {
+                    po.ndiscamount = parseFloat(po.price*po.quantity)*parseFloat(po.scheme)/100;
+                    po.discamount = $filter('number')(parseFloat(po.price*po.quantity)*parseFloat(po.scheme)/100,2);
+                }
+                var _totAmount = 0;
+                $scope.noofitems = 0 ;
+                angular.forEach($scope.po.products, function(po1){
+                     if(po1.quantity) {
+                        _totAmount = Number(_totAmount) + Number(parseFloat(po1.pcs_price*po1.quantity));
+                        $scope.noofitems += Number(parseFloat(po1.quantity));
+                        po1.msgst = $filter('number')((po.pcs_price * po.sgst)/100,2);
+                        po1.mcgst = $filter('number')((po.pcs_price * po.cgst)/100,2);
+                     }
+                }); 
+                $scope.totalAmount = $filter('number')(_totAmount,2);
+                $scope.totalAmountNumber = _totAmount;
+            }    
+     
+        $scope.getNextPage = function() {
+            if($scope.retailers.loaded) {
+                return;
+            }
+            $scope.retailers.offset = ($scope.retailers.offset + $scope.retailers.limit);
+            loadReatils();
+        }
+        $scope.order = [];
+        $scope.totalAmount = 0;
+        $scope.totalAmountNumber = 0;
+        
+        $scope.remove = function($index){
+                var newDataList=[];
+                $scope.selectedAll = false;
+                $scope.totalAmount = $scope.totalAmount - $scope.order[$index].total;
+                $scope.order.splice($index, 1);
+                // angular.forEach($scope.order, function(selected){
+                //     if(!selected.selected){
+                //         newDataList.push(selected);
+                //     }
+                // }); 
+                // $scope.order = newDataList;
+            };
+        $scope.selectedAll  = false;
+        $scope.checkAll = function () {
+            if (!$scope.selectedAll) {
+                $scope.selectedAll = true;
+            } else {
+                $scope.selectedAll = false;
+            }
+            angular.forEach($scope.order, function(mps) {
+                mps.selected = $scope.selectedAll;
+            });
+        };   
+        
+});
+
+angular
+    .module('mymobile3')
     .controller('RouteCtrl', function RouteCtrl(DoneMsgbox,$timeout,DoneStoreCache,GeoLocation,Util,BSServiceUtil,$state,$stateParams,$scope,Cache,$location,AlertService,$http,BSService) {
         $("body").removeClass("mini-navbar");
         var _operation = 'INSERT';
@@ -564,7 +813,6 @@ angular
 
 // var date = new Date(), y = date.getFullYear(), m = date.getMonth();
 // var firstDay = new Date(y, m, 1);
-// var lastDay = new Date(y, m + 1, 0);
 
 // Date.prototype.addDays = function(days) {
 //       var dat = new Date(this.valueOf())
