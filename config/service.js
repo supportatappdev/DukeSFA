@@ -7,11 +7,21 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with Dennisone.
  */
+ 
+function getBaseURL() {
+	   return location.protocol + "//" + location.hostname + 
+	      (location.port && ":" + location.port) ;
+}; 
+function getAppName(p) {
+   return "/";
+}
+var _appUrl = "http://202.53.13.76:9192";//getBaseURL()+getAppName(window.location.pathname);
 var baseUrl = _appUrl + "/api/";
 var importUrl = _appUrl + "/import";
 var exportUrl = _appUrl + "/export/?isTemplate=N";
 var attachUrl = _appUrl + "/aservice";
 var infoTemplate =  'common/notify.html';
+
 angular.module('doneServices',[])
 .service('Util', function($filter) {
     this.trim = function(value) {
