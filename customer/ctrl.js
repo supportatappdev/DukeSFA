@@ -390,13 +390,14 @@ angular
     .module('mymobile3')
     .controller('NewCallCtrl1', function CustCtrl($modal,DoneStoreCache,BSService,Util,$state,$stateParams,$filter,$scope,Cache,$location,AlertService,$http,BSServiceUtil,$location) {
        $scope._currDate = new Date();
+       $scope.po = {};
        $scope.params.isStrartDay = true;
        var _productsStore = DoneStoreCache.create("_keySFProductViewRef2","SFProductViewRef");
        var _productTypesStore = DoneStoreCache.create("_keySFProductTypeRef2","SFProductTypeRef");
        
        $scope.x = {};
        var loadProducts = function() {
-           if(!$scope.po || !$scope.po.products ) {
+           if(!$scope.po.products ) {
             _productsStore.setWhereClause("prdtype_id in (?,?,?,?)");
             _productsStore.setLimit(300);
             _productsStore.setOffset(0);
