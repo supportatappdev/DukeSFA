@@ -395,15 +395,18 @@ angular
        var _productTypesStore = DoneStoreCache.create("_keySFProductTypeRef2","SFProductTypeRef");
        
        $scope.x = {};
-       $scope.loadProducts = function(po) {
-            _productsStore.setWhereClause("prdtype_id = ?");
+       var loadProducts = function() {
+           if(!$scope.po || !$scope.po.products ) {
+            _productsStore.setWhereClause("prdtype_id in (?,?,?,?)");
             _productsStore.setLimit(300);
             _productsStore.setOffset(0);
-            _productsStore.setWhereClauseParams([po.selproducttype]);
+            _productsStore.setWhereClauseParams([1,2,3,4]);
             _productsStore.query().then(function(result) {
-                po.products = result.data;
+                $scope.po.products = result.data;
             });
+           }
        }
+       loadProducts();
        var loadProductTypes = function() {
             _productTypesStore.setLimit(300);
             _productTypesStore.setOffset(0);
