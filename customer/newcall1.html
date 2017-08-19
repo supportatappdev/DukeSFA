@@ -4,7 +4,7 @@
          <div class="form-group">
             <label class="col-lg-2 control-label">Type</label>
             <div class="col-lg-10" style="margin-top: -6px;">
-               <select class="form-control"  ng-model="po.selproducttype"   ng-change="loadProducts(po)"
+               <select class="form-control"  ng-model="po.selproducttype"   
                   ng-options="p.id as p.prdtype_name for p in producttypes">
                </select> 
             </div>
@@ -20,7 +20,7 @@
             </tr>
          </thead>
          <tbody>
-            <tr ng-repeat='p in po.products'>
+            <tr ng-repeat='p in po.products' ng-if="po.selproducttype == p.prdtype_id">
                <td>{{p.prd_name}}</td>
                <td>{{p.uom}}</td>
                <td>
