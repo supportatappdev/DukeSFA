@@ -6,7 +6,7 @@ angular
     .controller('MainCtrl', function MainCtrl(DoneStoreCache,$scope,Cache,$location,AlertService,$http,BSServiceUtil) {
     $scope._appUrl = _appUrl;
   //  AlertService.showError("Setup Error","Step 1");
-    //$scope.po = {};        
+            
     $scope.pageTitle = "Journey Plan";
     $scope.params = {};
     $scope.params.isStrartDay = false;
@@ -90,7 +90,11 @@ angular
              if( Cache.loggedInRole() === 'SalesOfficer') {
                     $scope.salesrep.isSO = "Y";
                     $location.path("index/listorder");
+             } if( Cache.loggedInRole() === 'LeadGen') {
+                    $scope.salesrep.isLG = "Y";
+                    $location.path("index/listcust");
              } else {
+                $scope.salesrep.isSP = "Y";
                 loadDetails(); 
              }
          });
