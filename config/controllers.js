@@ -6,7 +6,7 @@ angular
     .controller('MainCtrl', function MainCtrl(DoneStoreCache,$scope,Cache,$location,AlertService,$http,BSServiceUtil) {
     $scope._appUrl = _appUrl;
   //  AlertService.showError("Setup Error","Step 1");
-    $scope.po = {};        
+    //$scope.po = {};        
     $scope.pageTitle = "Journey Plan";
     $scope.params = {};
     $scope.params.isStrartDay = false;
