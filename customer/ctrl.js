@@ -589,11 +589,13 @@ angular
                     po.discamount = $filter('number')(parseFloat(po.price*po.quantity)*parseFloat(po.scheme)/100,2);
                 }
                 var _totAmount = 0;
-                $scope.noofitems = 0 ;
+                $scope.itemcnt = 0; // actually items
+                $scope.noofitems = 0 ; //actually pcs
                 var idx = 0;
                 angular.forEach($scope.po.products, function(po1){
                      if(po1.quantity) {
                         _totAmount = Number(_totAmount) + Number(parseFloat(po1.pcs_price*po1.quantity));
+                        $scope.itemcnt += 1;
                         $scope.noofitems += Number(parseFloat(po1.quantity));
                         po1.msgst = $filter('number')((po.pcs_price * po.sgst)/100,2);
                         po1.mcgst = $filter('number')((po.pcs_price * po.cgst)/100,2);
