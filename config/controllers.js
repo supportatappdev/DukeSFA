@@ -88,11 +88,12 @@ angular
          _store.query().then(function(item){
              $scope.salesrep = item.data[0];
              if( Cache.loggedInRole() === 'SalesOfficer') {
-                    $scope.salesrep.isSO = "Y";
-                    $location.path("index/listorder");
-             } if( Cache.loggedInRole() === 'LeadGen') {
-                    $scope.salesrep.isLG = "Y";
-                    $location.path("index/listcust");
+                $scope.salesrep.isSO = "Y";
+                $location.path("index/listorder");
+             } else if( Cache.loggedInRole() === 'LeadGen') {
+                $scope.salesrep.isLG = "Y";
+                loadDetails(); 
+                $location.path("index/listcust");
              } else {
                 $scope.salesrep.isSP = "Y";
                 loadDetails(); 
