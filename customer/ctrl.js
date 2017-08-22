@@ -794,9 +794,27 @@ angular
          inputJSON.trade_type_code = $scope.tradetype;
          inputJSON.jp_id = $scope.jpDay;
          inputJSON.visit_type = $scope.fortnight;
+         inputJSON.associate_since = Util.convertDBDate($scope.cust.associate_since)
+         inputJSON.dob = Util.convertDBDate($scope.cust.dob)
          inputJSON.dstb_id = $scope.salesrepdetials.dstid;
          inputJSON.terri_id = $scope.salesrepdetials.tid;
          inputJSON.route_id = $scope.salesrepdetials.rid;
+        var _store = DoneStoreCache.create("_keySPREF","SFSalesPersonRef");
+         _store.setWhereClause("user_id = ?");
+         _store.setWhereClauseParams([Cache.loggedInUser().uId]);
+         _store.query().then(function(item){
+             $scope.salesrep = item.data[0];
+            if( Cache.loggedInRole() === 'LeadGen') {
+                 inputJSON.dstb_id = -1;
+                 inputJSON.terri_id = -1;
+                 inputJSON.route_id =-1;
+                 inputJSON.is_prospect = 1;
+             } else {
+                 inputJSON.dstb_id = $scope.salesrepdetials.dstid;
+                 inputJSON.terri_id = $scope.salesrepdetials.tid;
+                 inputJSON.route_id = $scope.salesrepdetials.rid;
+             }
+         });
         // inputJSON.terri_id = 
                 if(_operation == 'UPDATE')  {
                     inputJSON.last_update_date = Util.convertDBDate(new Date());
