@@ -6,9 +6,51 @@
                 <div class="ibox-content">
                     <form class="form-horizontal">
 
-                        <div class="form-group"><label class="col-lg-2 control-label">Name</label>
+                        <div class="form-group"><label class="col-lg-2 control-label">Retailer Name</label>
                             <div class="col-lg-10">
-                            <input type="text" placeholder="Customer Name" ng-model="cust.cust_name" class="form-control">
+                            <input type="text" placeholder="Retailer Name" ng-model="cust.cust_name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-2 control-label">Contact Name</label>
+                            <div class="col-lg-10">
+                            <input type="text" placeholder="Contact Name" ng-model="cust.contact_name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-2 control-label">Mobile #</label>
+                            <div class="col-lg-10">
+                            <input type="text" placeholder="Mobile #" ng-model="cust.mobile_no" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-2 control-label">Landline #</label>
+                            <div class="col-lg-10">
+                            <input type="text" placeholder="Landline #" ng-model="cust.landline" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-2 control-label">Whatsapp #</label>
+                            <div class="col-lg-10">
+                            <input type="text" placeholder="Whatsapp #" ng-model="cust.whatsapp_no" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-2 control-label">PAN #</label>
+                            <div class="col-lg-10">
+                            <input type="text" placeholder="PAN #" ng-model="cust.pan_number" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-2 control-label">Registration #</label>
+                            <div class="col-lg-10">
+                            <input type="text" placeholder="Registration #" ng-model="cust.register_number" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-2 control-label">Associate Since</label>
+                            <div class="col-lg-10 input-group date">
+                           <input id="from_date"  ng-model="cust.associate_since" type="datetime" class="form-control" date-time=""  min-view="date" auto-close="true" format="dd/MM/yyyy">
+                           <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-2 control-label">Date of Birth</label>
+                            <div class="col-lg-10 input-group date">
+                           <input id="from_date"  ng-model="cust.dob" type="datetime" class="form-control" date-time=""  min-view="date" auto-close="true" format="dd/MM/yyyy">
+                           <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             </div>
                         </div>
                         <div class="form-group"><label class="col-lg-2 control-label">E-mail</label>
@@ -50,6 +92,26 @@
                             <div class="col-lg-10">
                            <input type="text" placeholder="City" ng-model="cust.city" class="form-control">
                              </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-2 control-label">SS Name</label>
+                            <div class="col-lg-10">
+                            <input type="text" placeholder="SS Name" ng-model="cust.ss_name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-2 control-label">SS City</label>
+                            <div class="col-lg-10">
+                            <input type="text" placeholder="SS City" ng-model="cust.ss_town" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-2 control-label">Distributor Name</label>
+                            <div class="col-lg-10">
+                            <input type="text" placeholder="Distributor Name" ng-model="cust.dbr_name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-2 control-label">Distributor City</label>
+                            <div class="col-lg-10">
+                            <input type="text" placeholder="Distributor City" ng-model="cust.dbr_town" class="form-control">
+                            </div>
                         </div>
                         <div class="form-group"><label class="col-lg-2 control-label">Route</label>
                             <div class="col-lg-10">
@@ -102,6 +164,17 @@
                            <done-select ng-model="fortnight" 
                           simple-combo="Y" values="0:1-3,1:2-4"></done-select>
                             </div>
+                        </div>
+                         <div class="form-group"><label class="col-lg-2 control-label">Is Modern Trade</label>
+                            <div class="col-lg-10">
+                          <done-select ng-model="cust.is_modern_trade" 
+                           
+                          simple-combo="Y" values="1:Yes,0:No"></done-select>
+                        </div>
+                        <div class="form-group"><label class="col-lg-2 control-label">Register Address</label>
+                            <div class="col-lg-10">
+                           <input type="text" placeholder="Register Address" ng-model="cust.register_address" class="form-control">
+                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-lg-offset-2 col-lg-10">
