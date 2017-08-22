@@ -159,10 +159,16 @@
                           simple-combo="Y" values="1:Monday,2:Tuesday,3:Wednesday,4:Thursday,5:Friday"></done-select>
                             </div>
                         </div>
-                         <div class="form-group"><label class="col-lg-2 control-label">Fortnight</label>
+                        <div class="form-group"><label class="col-lg-2 control-label">Fortnight</label>
                             <div class="col-lg-10">
                            <done-select ng-model="fortnight" 
                           simple-combo="Y" values="0:1-3,1:2-4"></done-select>
+                            </div>
+                        </div>
+                         <div class="form-group"><label class="col-lg-2 control-label">Frequency</label>
+                            <div class="col-lg-10">
+                            <done-select ng-model="frequency" 
+                          simple-combo="Y" values="WEK:Weekly,FOR:Fortnight,MON:Monthly"></done-select>
                             </div>
                         </div>
                          <div class="form-group"><label class="col-lg-2 control-label">Is Modern Trade</label>
@@ -170,6 +176,7 @@
                           <done-select ng-model="cust.is_modern_trade" 
                            
                           simple-combo="Y" values="1:Yes,0:No"></done-select>
+                        </div>
                         </div>
                         <div class="form-group"><label class="col-lg-2 control-label">Register Address</label>
                             <div class="col-lg-10">
