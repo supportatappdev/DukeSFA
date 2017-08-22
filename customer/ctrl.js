@@ -791,14 +791,17 @@ angular
          inputJSON.channel_id = $scope.customerchannel;
          inputJSON.customer_type_code = $scope.customertype+"";
          inputJSON.customer_group_code = $scope.customergroup;
+         inputJSON.frequency = $scope.frequency;
          inputJSON.trade_type_code = $scope.tradetype;
          inputJSON.jp_id = $scope.jpDay;
          inputJSON.visit_type = $scope.fortnight;
          inputJSON.associate_since = Util.convertDBDate($scope.cust.associate_since)
-         inputJSON.dob = Util.convertDBDate($scope.cust.dob)
-         inputJSON.dstb_id = $scope.salesrepdetials.dstid;
-         inputJSON.terri_id = $scope.salesrepdetials.tid;
-         inputJSON.route_id = $scope.salesrepdetials.rid;
+         inputJSON.dob = Util.convertDBDate($scope.cust.dob);
+         if($scope.salesrepdetials) {
+             inputJSON.dstb_id = $scope.salesrepdetials.dstid;
+             inputJSON.terri_id = $scope.salesrepdetials.tid;
+             inputJSON.route_id = $scope.salesrepdetials.rid;
+         }
         var _store = DoneStoreCache.create("_keySPREF","SFSalesPersonRef");
          _store.setWhereClause("user_id = ?");
          _store.setWhereClauseParams([Cache.loggedInUser().uId]);
