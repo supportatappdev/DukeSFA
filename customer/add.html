@@ -62,27 +62,22 @@
                             <div class="col-lg-8">
                             <textarea  placeholder="Address1" class="form-control" ng-model="cust.addr_line1"></textarea>
                             </div>
-                            <div class="col-lg-2">
-                            <button class="btn btn-primary" class="form-control" ng-click="getLatitudeLongitude()">
-                            <i class="fa fa-map-maker" ng-show="!getlatlong"></i>
-                            <i class="fa fa-spinner fa-spin" ng-show="getlatlong"></i> Get Location</button>
-                            </div>
                         </div>
                          <!--div class="form-group"><label class="col-lg-2 control-label">Address2</label>
                             <div class="col-lg-10">
                             <textarea  placeholder="Address2" class="form-control" ng-model="cust.addresss2"></textarea>
                             </div>
                         </div-->
-                         <div class="form-group"><label class="col-lg-2 control-label">Longitude</label>
+                        <!-- <div class="form-group" ng-show="recType !== 'new'"><label class="col-lg-2 control-label">Longitude</label>
                             <div class="col-lg-10">
                             <input type="text" placeholder="Longitude" ng-model="cust.longitude" class="form-control">
                             </div>
-                        </div>
-                        <div class="form-group"><label class="col-lg-2 control-label">Latitude</label>
+                        </div> 
+                        <div class="form-group" ng-show="recType !== 'new'"><label class="col-lg-2 control-label">Latitude</label>
                             <div class="col-lg-10">
                             <input type="text" placeholder="Latitude" ng-model="cust.latitude" class="form-control">
                             </div>
-                        </div>
+                        </div>-->
                         <!--div class="form-group"><label class="col-lg-2 control-label">Area</label>
                             <div class="col-lg-10">
                             <input type="text" placeholder="Area Name" ng-model="cust.area_name" class="form-control">
@@ -124,7 +119,7 @@
                         </div>
                         <div class="form-group"><label class="col-lg-2 control-label">Route</label>
                             <div class="col-lg-10">
-                           <input type="text" placeholder="State" ng-model="state" class="form-control">
+                           <input type="text" placeholder="Route" ng-model="state" class="form-control">
                              </div>
                         </div>
                         <div class="form-group"><label class="col-lg-2 control-label">Customer Type</label>
@@ -167,7 +162,6 @@
                             </div>
                         </div>
                           
-                     </div>
                         <!-- simple-combo="Y" values="1:Monday,2:Tuesday,3:Wednesday,4:Thursday,5:Friday,6:Saturday"
                         div class="form-group"><label class="col-lg-2 control-label">Fortnight</label>
                             <div class="col-lg-10">
@@ -196,15 +190,19 @@
                         <div class="form-group">
                             <div class="col-lg-offset-2 col-lg-10">
                                 <button class="btn btn-sm btn-primary" ng-click="addCustomer()"><i class="fa fa-plus"></i> {{btnTxt}}</button>
+                               <button class="btn btn-sm btn-primary m-l-md" class="form-control" ng-click="getLatitudeLongitude()">
+                            <i class="fa fa-map-maker"></i>
+                            <i class="fa fa-spinner fa-spin" ng-show="getlatlong"></i> Update Location</button>
+                            
+                                
                             </div>
                         </div>
                     </form>
                 </div>
-               
             </div>
         </div>
         <div>
-            <!-- <div class="ibox float-e-margins">
+             <div clasges="ibox float-e-margins" ng-show="recType !== 'new'">
                 <div class="ibox-title">
                     <i class="fa fa-map-marker"></i> Retailer Location
                 </div>
@@ -215,6 +213,6 @@
                       </ng-map>
                     </form>
                 </div>
-            </div> -->    
+            </div>   
         </div>
     </div>
