@@ -190,7 +190,7 @@
                         <div class="form-group">
                             <div class="col-lg-offset-2 col-lg-10">
                                 <button class="btn btn-sm btn-primary" ng-click="addCustomer()"><i class="fa fa-plus"></i> {{btnTxt}}</button>
-                               <button class="btn btn-sm btn-primary m-l-md" class="form-control" ng-click="getLatitudeLongitude()">
+                               <button ng-show="recType !== 'new'" class="btn btn-sm btn-primary m-l-md" class="form-control" ng-click="getLatitudeLongitude()">
                             <i class="fa fa-map-maker"></i>
                             <i class="fa fa-spinner fa-spin" ng-show="getlatlong"></i> Update Location</button>
                             
