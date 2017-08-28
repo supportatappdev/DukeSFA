@@ -764,9 +764,10 @@ angular
                  $scope.cust = result.data[0];
                      $scope.customerchannel = $scope.cust.channel_id;
                      $scope.customertype = parseInt($scope.cust.customer_type_code);
-                     $scope.customergroup = parseInt($scope.cust.customer_group_code);
+                     //$scope.customergroup = parseInt($scope.cust.customer_group_code);
                      $scope.tradetype = $scope.cust.trade_type_code;
-                     $scope.jpDay = $scope.cust.jp_id+"";
+                     $scope.jpDay = $scope.cust.jp_id;
+                     $scope.state = $scope.state;
                      $scope.fortnight = $scope.cust.visit_type+"";
                      $scope.salesrepdetials.dstid = $scope.cust.dstb_id;
                      $scope.salesrepdetials.tid = $scope.cust.terri_id;
@@ -782,8 +783,10 @@ angular
             _custStore.setOffset(0);
              getCustomer();
              $scope.btnTxt = "Update Customer";
+             $scope.recType = 'edit';
         } else {
             $scope.btnTxt = "Add Customer";
+             $scope.recType = 'new';
              init();
         }
         $scope.addCustomer = function() {
@@ -791,11 +794,12 @@ angular
         var inputJSON = $scope.cust;
          inputJSON.channel_id = $scope.customerchannel;
          inputJSON.customer_type_code = $scope.customertype+"";
-         inputJSON.customer_group_code = $scope.customergroup;
-         inputJSON.frequency = $scope.frequency;
+         //inputJSON.customer_group_code = $scope.customergroup;
+         //inputJSON.frequency = $scope.frequency;
          inputJSON.trade_type_code = $scope.tradetype;
-         inputJSON.jp_id = $scope.jpDay;
+         inputJSON.jp_id = parseInt($scope.jpDay);
          inputJSON.visit_type = $scope.fortnight;
+         inputJSON.state = $scope.state;
          inputJSON.associate_since = Util.convertDBDate($scope.cust.associate_since)
          inputJSON.dob = Util.convertDBDate($scope.cust.dob);
          if($scope.salesrepdetials) {
@@ -823,6 +827,9 @@ angular
                 if(_operation == 'UPDATE')  {
                     inputJSON.last_update_date = Util.convertDBDate(new Date());
                     inputJSON.creation_date = Util.convertDBDate($scope.cust.creation_date);
+                    //need to remove the following attribute from custom object.
+                    inputJSON.creation_date_bkp = Util.convertDBDate($scope.cust.creation_date_bkp);
+                    
                 } else {
                  inputJSON.cust_code = 'W00'+$scope.cust.cust_name;
                 }
