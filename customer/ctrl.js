@@ -708,14 +708,15 @@ angular
         
         //-->END
         var init  = function() {
-            var callback = function() {
-                    $scope.getLatitudeLongitude();
-            }
-            DoneMsgbox.show("Info","Alert!","Do you want to capture customer location?",'Y')
-                    .then(function(){
-                       callback();
-                    }, function(){
-                    });
+            $scope.getLatitudeLongitude();
+            // var callback = function() {
+            //         $scope.getLatitudeLongitude();
+            // }
+            // DoneMsgbox.show("Info","Alert!","Do you want to capture customer location?",'Y')
+            //         .then(function(){
+            //           callback();
+            //         }, function(){
+            //         });
         }
         $scope.getLatitudeLongitude = function() {
            $scope.getlatlong = true;
