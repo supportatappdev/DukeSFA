@@ -3,13 +3,14 @@
 <html ng-app="mymobile3">
 
 <head>
+
      <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
-    <meta id="viewport"  name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
     <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
-   
      <!--<meta name="viewport" content="width=320, user-scalable=no, target-densitydpi=low-dpi" />-->
+       <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' https://*.phonegap.com 'unsafe-inline' 'unsafe-eval'">
         <title page-title></title>
    </head>
 
@@ -61,18 +62,6 @@
             document.addEventListener('deviceready', this.onDeviceReady, false);
         },
         onDeviceReady: function() {
-            alert("Getting here...");
-      // PETEY'S SOLUTION, WRAPPED IN CODE TO CHECK FOR ANDROID PRE 4.2
-            // ALSO MODIFIED TO USE DEVICE PIXEL RATIO, INSTEAD OF CONTENTWIDTH
-            if( isAndroid() ) {
-                var matches = device.version.match( /[0-9]+(\.[0-9]+)?/i );
-    
-                //  if( matches.length && parseFloat( matches[ 0 ] ) < 4.2 ) {
-                //     document.body.style.zoom = 1 / window.devicePixelRatio;
-                //  }
-                 var viewportScale = 1 / window.devicePixelRatio;
-                  document.getElementById("viewport").setAttribute("content","user-scalable=no,initial-scale="+viewportScale+", minimum-scale=0.2,maximum-scale=2, width=device-width");
-            }
     
             
             // start app logic
