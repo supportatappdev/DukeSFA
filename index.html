@@ -5,9 +5,6 @@
 <head>
 
      <meta charset="utf-8" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
     <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
      <!--<meta name="viewport" content="width=320, user-scalable=no, target-densitydpi=low-dpi" />-->
         <title page-title></title>
@@ -61,15 +58,10 @@
             document.addEventListener('deviceready', this.onDeviceReady, false);
         },
         onDeviceReady: function() {
-    
-            
             // start app logic
-    
         }
     };
-
     app.initialize();
-
     function isAndroid() {
         if( device.platform.match( /android/i ) ) {    
          return true;
@@ -77,7 +69,6 @@
         return false;
     }
 </script> 
-<script src="http://192.168.1.146:9091/target/target-script-min.js#anonymous"></script>
  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCq0Rkd-lMffA4pHEhKxV5AHYMxj4eBXqk"></script>
 
 <script src="build/js/vendor1.js"></script>
@@ -87,24 +78,22 @@
 <script src="build/js/ng-map.js"></script>
 <script src="build/js/ng-scroll.js"></script>
 <script src="config/inspinia.js"></script>
-  <script src="http://202.53.13.76:9192/assets/inspinia/js/plugins/flot/jquery.flot.js"></script>
- <script src="http://202.53.13.76:9192/assets/inspinia/js/plugins/flot/jquery.flot.time.js"></script>
- <script src="http://202.53.13.76:9192/assets/inspinia/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
- <script src="http://202.53.13.76:9192/assets/inspinia/js/plugins/flot/jquery.flot.spline.js"></script>
- <script src="http://202.53.13.76:9192/assets/inspinia/js/plugins/flot/jquery.flot.resize.js"></script>
- <script src="http://202.53.13.76:9192/assets/inspinia/js/plugins/flot/jquery.flot.pie.js"></script>
-  <script src="http://www.flotcharts.org/flot/jquery.flot.categories.js"></script>
- <script src="http://202.53.13.76:9192/assets/inspinia/js/plugins/flot/angular-flot.js"></script>
-  <script src="http://202.53.13.76:9192/assets/inspinia/js/plugins/flot/curvedLines.js"></script>
+<script src="http://202.53.13.76:9192/assets/inspinia/js/plugins/flot/jquery.flot.js"></script>
+<script src="http://202.53.13.76:9192/assets/inspinia/js/plugins/flot/jquery.flot.time.js"></script>
+<script src="http://202.53.13.76:9192/assets/inspinia/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+<script src="http://202.53.13.76:9192/assets/inspinia/js/plugins/flot/jquery.flot.spline.js"></script>
+<script src="http://202.53.13.76:9192/assets/inspinia/js/plugins/flot/jquery.flot.resize.js"></script>
+<script src="http://202.53.13.76:9192/assets/inspinia/js/plugins/flot/jquery.flot.pie.js"></script>
+<script src="http://www.flotcharts.org/flot/jquery.flot.categories.js"></script>
+<script src="http://202.53.13.76:9192/assets/inspinia/js/plugins/flot/angular-flot.js"></script>
+<script src="http://202.53.13.76:9192/assets/inspinia/js/plugins/flot/curvedLines.js"></script>
 <script src="http://202.53.13.76:9192/assets/inspinia/js/plugins/datepicker/angular-datepicker.js"></script>
 <!-- Anglar App Script -->
 
 <script src="config/components.js"></script>
-
 <script src="config/app.js"></script>
 <script src="config/service.js"></script>
 <script src="login/config.js"></script>
-
 <script src="customer/config.js"></script>
 <script src="config/config.js"></script>
 <script src="order/config.js"></script>
