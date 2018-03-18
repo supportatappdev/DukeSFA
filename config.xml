@@ -14,8 +14,16 @@
   <author href="https://build.phonegap.com" email="support@dennisone.in">
      Srikanht Akkapu
   </author>
+  <content src="index.html" />
+   <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
 <feature name="Geolocation">
     <param name="android-package" value="org.apache.cordova.geolocation.GeoBroker" />
 </feature>
-<plugin name="cordova-plugin-geolocation" version="2.2.0" />
+
 </widget>
