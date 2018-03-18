@@ -61,6 +61,7 @@
             document.addEventListener('deviceready', this.onDeviceReady, false);
         },
         onDeviceReady: function() {
+            alert("Getting here...");
       // PETEY'S SOLUTION, WRAPPED IN CODE TO CHECK FOR ANDROID PRE 4.2
             // ALSO MODIFIED TO USE DEVICE PIXEL RATIO, INSTEAD OF CONTENTWIDTH
             if( isAndroid() ) {
